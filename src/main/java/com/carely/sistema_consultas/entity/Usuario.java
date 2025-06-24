@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public abstract class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_usuario;
+    private Long id;
 
     @Column(nullable = false)
     private String nome;
@@ -18,12 +18,12 @@ public abstract class Usuario {
     @Column(nullable = false)
     private String senha;
 
-    public Long getId_usuario() {
-        return id_usuario;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {

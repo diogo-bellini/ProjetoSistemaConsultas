@@ -9,28 +9,28 @@ import java.time.LocalTime;
 public class Consulta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_consulta;
+    private Long id;
 
     private LocalDate data;
     private LocalTime hora;
 
     @ManyToOne
-    @JoinColumn(name = "id_paciente", nullable = false)
+    @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
     @ManyToOne
-    @JoinColumn(name = "id_medico", nullable = false)
+    @JoinColumn(name = "medico_id", nullable = false)
     private Medico medico;
 
     @OneToOne(mappedBy = "consulta")
     private Diagnostico diagnostico;
 
-    public Long getId_consulta() {
-        return id_consulta;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_consulta(Long id_consulta) {
-        this.id_consulta = id_consulta;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDate getData() {

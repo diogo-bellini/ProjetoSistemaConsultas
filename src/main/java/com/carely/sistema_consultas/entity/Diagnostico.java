@@ -8,7 +8,7 @@ import java.util.List;
 public class Diagnostico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_diagnostico;
+    private Long id;
 
     @Column(nullable = false)
     private String descricao;
@@ -20,12 +20,12 @@ public class Diagnostico {
     @OneToMany(mappedBy = "diagnostico")
     private List<Prescricao> prescricoes;
 
-    public Long getId_diagnostico() {
-        return id_diagnostico;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_diagnostico(Long id_diagnostico) {
-        this.id_diagnostico = id_diagnostico;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDescricao() {

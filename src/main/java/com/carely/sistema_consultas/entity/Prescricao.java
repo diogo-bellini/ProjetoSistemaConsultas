@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class Prescricao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_prescricao;
+    private Long id;
 
     private String medicamento;
 
@@ -23,12 +23,12 @@ public class Prescricao {
     @ManyToOne
     private Diagnostico diagnostico;
 
-    public Long getId_prescricao() {
-        return id_prescricao;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_prescricao(Long id_prescricao) {
-        this.id_prescricao = id_prescricao;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getMedicamento() {
