@@ -21,17 +21,17 @@ public class PendenteState implements StateAgendamentoConsulta{
     }
 
     @Override
-    public void confirmarAgendamento() {
-
+    public void confirmarAgendamento(AgendamentoConsulta agendamentoConsulta) {
+        agendamentoConsulta.setStateAgendamentoConsulta(ConfirmadaState.getInstancia());
     }
 
     @Override
-    public void cancelarAgendamento() {
-
+    public void cancelarAgendamento(AgendamentoConsulta agendamentoConsulta) {
+        agendamentoConsulta.setStateAgendamentoConsulta(CanceladaState.getInstancia());
     }
 
     @Override
-    public void reagendarAgendamento() {
+    public void reagendarAgendamento(AgendamentoConsulta agendamentoConsulta) {
 
     }
 }

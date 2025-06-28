@@ -63,6 +63,7 @@ public class AgendamentoConsulta {
 
     public void setStateAgendamentoConsulta(StateAgendamentoConsulta stateAgendamentoConsulta) {
         this.state = stateAgendamentoConsulta;
+        this.status = stateAgendamentoConsulta.getStatus();
     }
 
     public Paciente getPaciente() {
@@ -86,7 +87,24 @@ public class AgendamentoConsulta {
         this.status = state.getStatus();
     }
 
-    public void confirmarAgendamento(){
+    @PostLoad
+    public void carregarEstado() {
+        switch (this.status) {
+            case "Pendente" -> this.state = PendenteState.getInstancia();
+            case "Confirmada" -> this.state = ConfirmadaState.getInstancia();
+            case "Cancelada" -> this.state = CanceladaState.getInstancia();
+        }
+    }
 
+    public void confirmarAgendamento(){
+        state.confirmarAgendamento(this);
+    }
+
+    public void cancelarAgendamento(){
+        state.cancelarAgendamento(this);
+    }
+
+    public void reagendarAgendamento(){
+        state.reagendarAgendamento(this);
     }
 }

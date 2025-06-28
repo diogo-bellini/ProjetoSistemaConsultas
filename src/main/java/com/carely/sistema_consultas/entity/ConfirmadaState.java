@@ -21,15 +21,15 @@ public class ConfirmadaState implements StateAgendamentoConsulta{
     }
 
     @Override
-    public void confirmarAgendamento() {}
+    public void confirmarAgendamento(AgendamentoConsulta agendamentoConsulta) {}
 
     @Override
-    public void cancelarAgendamento() {
-
+    public void cancelarAgendamento(AgendamentoConsulta agendamentoConsulta) {
+        agendamentoConsulta.setStateAgendamentoConsulta(CanceladaState.getInstancia());
     }
 
     @Override
-    public void reagendarAgendamento() {
-
+    public void reagendarAgendamento(AgendamentoConsulta agendamentoConsulta) {
+        agendamentoConsulta.setStateAgendamentoConsulta(PendenteState.getInstancia());
     }
 }
