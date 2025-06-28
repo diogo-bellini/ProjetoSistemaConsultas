@@ -19,4 +19,8 @@ public class MedicoService {
         medico.setSenha(passwordEncoder.encode(medico.getSenha()));
         medicoRepository.save(medico);
     }
+
+    public Medico carregarMedicoEmail(String email) {
+        return medicoRepository.findByEmail(email);
+    }
 }

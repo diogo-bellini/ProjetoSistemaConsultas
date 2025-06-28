@@ -19,4 +19,8 @@ public class PacienteService {
         paciente.setSenha(passwordEncoder.encode(paciente.getSenha()));
         pacienteRepository.save(paciente);
     }
+
+    public Paciente carregarPacienteEmail(String email) {
+        return pacienteRepository.findByEmail(email);
+    }
 }

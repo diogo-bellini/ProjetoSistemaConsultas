@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home - Médico</title>
+</head>
+<body>
+<h1>Bem-vindo(a), Dr(a). <span th:text="${medico.nome}">Médico</span>!<br><span th:text="${medico.especialidade}">Especialidade</span>!</h1>
+<h2>Área do Médico</h2>
+
+<ul>
+    <li><a th:href="@{/medico/consultas}">Consultas Agendadas</a></li>
+    <li><a th:href="@{/medico/diagnosticos}">Diagnósticos</a></li>
+    <li><a th:href="@{/medico/editar}">Editar Perfil</a></li>
+    <li><a th:href="@{/logout}">Sair</a></li>
+</ul>
+</body>
+</html>

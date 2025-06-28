@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home - Admin</title>
+</head>
+<body>
+<h1>Bem-vindo(a), <span th:text="${admin.nome}">Administrador</span>!</h1>
+<h2>Painel Administrativo</h2>
+
+<ul>
+    <li><a th:href="@{/admin/usuarios}">Gerenciar Usuários</a></li>
+    <li><a th:href="@{/admin/consultas}">Visualizar Todas as Consultas</a></li>
+    <li><a th:href="@{/admin/relatorios}">Relatórios</a></li>
+    <li><a th:href="@{/logout}">Sair</a></li>
+</ul>
+</body>
+</html>
