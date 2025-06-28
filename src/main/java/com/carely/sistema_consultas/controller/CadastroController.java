@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/cadastro")
 public class CadastroController {
 
     @Autowired
@@ -18,12 +19,12 @@ public class CadastroController {
     @Autowired
     private PacienteService pacienteService;
 
-    @GetMapping("/cadastro")
+    @GetMapping
     public String mostrarFormularioCadastro() {
         return "cadastro";
     }
 
-    @PostMapping("/cadastro")
+    @PostMapping
     public String cadastrarUsuario(
             @RequestParam String nome,
             @RequestParam String email,
@@ -47,6 +48,6 @@ public class CadastroController {
             pacienteService.cadastrarPaciente(paciente);
         }
 
-        return "redirect:/login";
+        return "redirect:/";
     }
 }
