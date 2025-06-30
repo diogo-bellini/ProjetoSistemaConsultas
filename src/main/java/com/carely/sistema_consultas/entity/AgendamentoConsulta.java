@@ -17,6 +17,9 @@ public class AgendamentoConsulta {
     @Transient
     private StateAgendamentoConsulta state;
 
+    @Column(nullable = false)
+    private boolean processado = false;
+
     @ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
@@ -50,10 +53,10 @@ public class AgendamentoConsulta {
     }
 
     public String getStatus() {
-        return status;
+        return state != null ? state.getStatus() : status;
     }
 
-    public void setStatus(String status) {
+    private void setStatus(String status) {
         this.status = status;
     }
 
@@ -90,9 +93,23 @@ public class AgendamentoConsulta {
     @PostLoad
     public void carregarEstado() {
         switch (this.status) {
-            case "Pendente" -> this.state = PendenteState.getInstancia();
-            case "Confirmada" -> this.state = ConfirmadaState.getInstancia();
-            case "Cancelada" -> this.state = CanceladaState.getInstancia();
+            case "Pendente":
+                this.state = PendenteState.getInstancia();
+                break;
+            case "Confirmada":
+                this.state = ConfirmadaState.getInstancia();
+                break;
+            case "Cancelada":
+                this.state = CanceladaState.getInstancia();
+                break;
+        }
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void sincronizarStatus() {
+        if (this.state != null) {
+            this.status = this.state.getStatus();
         }
     }
 
@@ -106,5 +123,13 @@ public class AgendamentoConsulta {
 
     public void reagendarAgendamento(){
         state.reagendarAgendamento(this);
+    }
+
+    public boolean isProcessado() {
+        return processado;
+    }
+
+    public void setProcessado(boolean processado) {
+        this.processado = processado;
     }
 }

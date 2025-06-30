@@ -8,4 +8,5 @@ public interface IMedicoService {
     public Medico carregarMedicoComAgendamentos(String email);
     public Medico findById(long id);
     public Boolean existsById(long id);
+    public Medico carregarMedicoComConsultas(String email);
 }
