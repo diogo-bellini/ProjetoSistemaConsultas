@@ -59,7 +59,7 @@ public class DataSeeder implements CommandLineRunner {
         AgendamentoConsulta agendamento = new AgendamentoConsulta();
         agendamento.setMedico(medico_aux);
         agendamento.setPaciente(paciente_aux);
-        agendamento.setData(java.time.LocalDate.now().plusDays(1));
+        agendamento.setData(java.time.LocalDate.now());
         agendamento.setHora(java.time.LocalTime.now());
         agendamento.setStateAgendamentoConsulta(PendenteState.getInstancia());
         agendamentoConsultaService.salvarAgendamento(agendamento);
