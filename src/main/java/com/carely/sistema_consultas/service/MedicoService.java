@@ -13,18 +13,27 @@ import java.util.Optional;
 public class MedicoService implements IMedicoService {
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private MedicoRepository medicoRepository;
 
     public Medico carregarMedicoEmail(String email) {
         return medicoRepository.findByEmail(email);
     }
 
-    public Boolean existsById(long id){
-        return medicoRepository.existsById(id);
+    public Medico carregarMedicoComAgendamentos(String email){
+        return medicoRepository.findWithAgendamentosByEmail(email);
     }
 
-    public Medico findById(long id){
-        return medicoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + id));
+    public void atualizarPerfil(Medico medico, String senha){
+        Medico aux = medicoRepository.findByEmail(medico.getEmail());
+        aux.setNome(medico.getNome());
+        aux.setEmail(medico.getEmail());
+        aux.setEspecialidade(medico.getEspecialidade());
+        if(senha != null && !senha.isEmpty()){
+            aux.setSenha(passwordEncoder.encode(senha));
+        }
+        medicoRepository.save(aux);
     }
 }
