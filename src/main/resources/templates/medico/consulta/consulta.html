@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Consultas do Médico</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div class="container">
+    <h1>Consultas Realizadas</h1>
+
+    <div th:if="${#lists.isEmpty(medico.consultas)}">
+        <p>Não há consultas realizadas até o momento.</p>
+    </div>
+
+    <table th:if="${!#lists.isEmpty(medico.consultas)}" border="1" cellpadding="8" cellspacing="0">
+        <thead>
+        <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Paciente</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="consulta : ${medico.consultas}">
+            <td th:text="${consulta.data}">2025-01-01</td>
+            <td th:text="${consulta.hora}">14:00</td>
+            <td th:text="${consulta.paciente.nome}">Nome do Paciente</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/medico/home}" class="btn">Voltar</a>
+</div>
+</body>
+</html>

@@ -55,8 +55,8 @@
 </div>
 
 <script th:inline="javascript">
-    const bloqueados = {};
-    const horarios = [];
+    const bloqueados = /*[[${bloqueados}]]*/ [];
+    const horarios = /*[[${horarios}]]*/ [];
 
     function mostrarHorarios() {
         const dataSelecionada = document.getElementById("diaSelect").value;
