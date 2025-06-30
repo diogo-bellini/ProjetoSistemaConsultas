@@ -12,14 +12,6 @@ public class MedicoService {
     @Autowired
     private MedicoRepository medicoRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    public void cadastrarMedico(Medico medico) {
-        medico.setSenha(passwordEncoder.encode(medico.getSenha()));
-        medicoRepository.save(medico);
-    }
-
     public Medico carregarMedicoEmail(String email) {
         return medicoRepository.findByEmail(email);
     }

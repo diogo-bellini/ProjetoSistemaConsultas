@@ -12,14 +12,6 @@ public class PacienteService {
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    public void cadastrarPaciente(Paciente paciente) {
-        paciente.setSenha(passwordEncoder.encode(paciente.getSenha()));
-        pacienteRepository.save(paciente);
-    }
-
     public Paciente carregarPacienteEmail(String email) {
         return pacienteRepository.findByEmail(email);
     }
