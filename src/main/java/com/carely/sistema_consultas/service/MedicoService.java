@@ -36,4 +36,13 @@ public class MedicoService implements IMedicoService {
         }
         medicoRepository.save(aux);
     }
+
+    public Medico findById(long id){
+        return medicoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Médico com ID " + id + " não encontrado."));
+    }
+
+    public Boolean existsById(long id){
+        return medicoRepository.existsById(id);
+    }
 }

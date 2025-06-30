@@ -2,9 +2,6 @@ package com.carely.sistema_consultas.controller;
 
 import com.carely.sistema_consultas.entity.Medico;
 import com.carely.sistema_consultas.entity.Usuario;
-import com.carely.sistema_consultas.repository.UsuarioRepository;
-import com.carely.sistema_consultas.service.MedicoService;
-import com.carely.sistema_consultas.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,10 +20,10 @@ public class AdminController {
     private IAdminService adminService;
 
     @Autowired
-    private UsuarioService usuarioService;
+    private IUsuarioService usuarioService;
 
     @Autowired
-    private MedicoService medicoService;
+    private IMedicoService medicoService;
 
     @ModelAttribute
     public void addAdminToModel(Model model) {
@@ -68,7 +65,6 @@ public class AdminController {
             medico.setEspecialidade(especialidade);
         }
 
-        usuarioService.salvarUsuario(usuario);
 
         return "redirect:/admin/usuarios";
     }
