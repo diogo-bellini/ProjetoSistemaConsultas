@@ -20,6 +20,10 @@ public class MedicoService implements IMedicoService {
         return medicoRepository.findByEmail(email);
     }
 
+    public Medico carregarMedicoComAgendamentos(String email){
+        return medicoRepository.findWithAgendamentosByEmail(email);
+    }
+
     public void atualizarPerfil(Medico medico, String senha){
         Medico aux = medicoRepository.findByEmail(medico.getEmail());
         aux.setNome(medico.getNome());

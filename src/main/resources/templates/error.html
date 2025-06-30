@@ -11,7 +11,7 @@
     <p th:if="${codigoErro == 404}">Página não encontrada (Erro 404).</p>
     <p th:if="${codigoErro == 403}">Acesso negado (Erro 403).</p>
     <p th:if="${codigoErro == 500}">Erro interno do servidor (Erro 500).</p>
-    <p th:if="${codigoErro != null and #lists.contains({404,403,500}, codigoErro) == false}">
+    <p th:if="${codigoErro != null and codigoErro != 404 and codigoErro != 403 and codigoErro != 500}">
         Código do erro: <span th:text="${codigoErro}"></span>
     </p>
 
