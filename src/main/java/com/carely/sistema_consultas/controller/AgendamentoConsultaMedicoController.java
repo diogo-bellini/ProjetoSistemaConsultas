@@ -1,15 +1,16 @@
 package com.carely.sistema_consultas.controller;
 
 import com.carely.sistema_consultas.entity.AgendamentoConsulta;
-import com.carely.sistema_consultas.entity.ConfirmadaState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/medico/agendamento-consulta")
@@ -43,6 +44,40 @@ public class AgendamentoConsultaMedicoController {
     public String cancelarAgendamento(@PathVariable Long id){
         AgendamentoConsulta agendamentoConsulta = agendamentoConsultaService.carregarAgendamentoConsultaComPaciente(id);
         agendamentoConsultaService.cancelarAgendamento(agendamentoConsulta);
+        return "redirect:/medico/agendamento-consulta/detalhes/" + id;
+    }
+
+    @GetMapping("{id}/reagendar")
+    public String reagendarAgendamento(@PathVariable Long id, Model model){
+        AgendamentoConsulta agendamento = agendamentoConsultaService.carregarAgendamentoConsultaComMedico(id);
+        List<LocalDate> dias = agendamentoConsultaService.gerarDiasAgendamento();
+        List<LocalTime> horarios = agendamentoConsultaService.gerarHorariosAgendamento();
+        Set<String> bloqueados = agendamentoConsultaService.buscarHorariosIndisponiveis(agendamento.getMedico().getId());
+
+        model.addAttribute("agendamento", agendamento);
+        model.addAttribute("dias", dias);
+        model.addAttribute("horarios", horarios);
+        model.addAttribute("bloqueados", bloqueados);
+        return "medico/agendamento-consulta/reagendar-agendamento";
+    }
+
+    @PostMapping("{id}/reagendar")
+    public String reagendarAgendamento(@PathVariable Long id, @RequestParam("novaData") String novaDataStr, @RequestParam("novaHora") String novaHoraStr, Model model){
+        AgendamentoConsulta agendamento = agendamentoConsultaService.carregarAgendamentoConsultaComMedico(id);
+        LocalDate novaData = LocalDate.parse(novaDataStr);
+        LocalTime novaHora = LocalTime.parse(novaHoraStr);
+
+        Set<String> bloqueados = agendamentoConsultaService.buscarHorariosIndisponiveis(agendamento.getMedico().getId());
+
+        if (!agendamentoConsultaService.horarioDisponivel(bloqueados, novaData, novaHora)) {
+            model.addAttribute("agendamento", agendamento);
+            model.addAttribute("dias", agendamentoConsultaService.gerarDiasAgendamento());
+            model.addAttribute("horarios", agendamentoConsultaService.gerarHorariosAgendamento());
+            model.addAttribute("bloqueados", bloqueados);
+            model.addAttribute("erro", "Este horário já está ocupado.");
+            return "medico/agendamento-consulta/reagendar-agendamento";
+        }
+        agendamentoConsultaService.reagendarAgendamento(agendamento, novaData, novaHora);
         return "redirect:/medico/agendamento-consulta/detalhes/" + id;
     }
 }
