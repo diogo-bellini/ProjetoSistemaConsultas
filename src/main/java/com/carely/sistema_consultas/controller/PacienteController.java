@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PacienteController {
 
     @Autowired
-    private PacienteService pacienteService;
+    private IPacienteService pacienteService;
 
     @GetMapping("/home")
     public String home(Model model) {
