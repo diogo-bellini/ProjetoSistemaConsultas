@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reagendar Agendamento</title>
+    <style>
+        .hora-btn {
+            margin: 5px;
+            padding: 8px 12px;
+            border: none;
+            background-color: #e0ffe0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .hora-btn.selected {
+            background-color: #007bff;
+            color: white;
+        }
+        .hora-btn:disabled {
+            background-color: #f8d7da;
+            color: #555;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Reagendar Agendamento</h1>
+
+    <p><strong>Data atual:</strong> <span th:text="${agendamento.data}"></span></p>
+    <p><strong>Hora atual:</strong> <span th:text="${agendamento.hora}"></span></p>
+
+    <form th:action="@{/medico/agendamento-consulta/{id}/reagendar(id=${agendamento.id})}" method="post">
+        <input type="hidden" id="novaData" name="novaData" required />
+        <input type="hidden" id="novaHora" name="novaHora" required />
+
+        <label for="diaSelect"><strong>Selecione um dia:</strong></label>
+        <select id="diaSelect" onchange="mostrarHorarios()" required>
+            <option value="">-- Escolha um dia --</option>
+            <option th:each="dia : ${dias}"
+                    th:value="${#temporals.format(dia, 'yyyy-MM-dd')}"
+                    th:text="${#temporals.format(dia, 'dd/MM/yyyy (EEE)')}">
+            </option>
+        </select>
+
+        <div id="horariosContainer" style="margin-top: 20px;"></div>
+
+        <div th:if="${erro}" style="color: red; margin-top: 20px;">
+            <p th:text="${erro}"></p>
+        </div>
+
+        <button type="submit" style="margin-top: 20px;">Confirmar reagendamento</button>
+        <a th:href="@{/medico/agendamento-consulta/detalhes/{id}(id=${agendamento.id})}" style="margin-left: 15px;">Cancelar</a>
+    </form>
+</div>
+
+<script th:inline="javascript">
+    const bloqueados = {};
+    const horarios = [];
+
+    function mostrarHorarios() {
+        const dataSelecionada = document.getElementById("diaSelect").value;
+        const container = document.getElementById("horariosContainer");
+        container.innerHTML = "";
+        document.getElementById("novaData").value = dataSelecionada;
+        document.getElementById("novaHora").value = "";
+
+        if (!dataSelecionada) return;
+
+        horarios.forEach(hora => {
+            const horaStr = hora.substring(0,5);
+            const chave = dataSelecionada + "_" + horaStr;
+
+            const botao = document.createElement("button");
+            botao.type = "button";
+            botao.textContent = horaStr;
+            botao.className = "hora-btn";
+            if (bloqueados.includes(chave)) {
+                botao.disabled = true;
+            } else {
+                botao.onclick = () => selecionarHora(botao, horaStr);
+            }
+            container.appendChild(botao);
+        });
+    }
+
+    function selecionarHora(botao, hora) {
+        document.querySelectorAll(".hora-btn").forEach(btn => btn.classList.remove("selected"));
+        botao.classList.add("selected");
+        document.getElementById("novaHora").value = hora;
+    }
+</script>
+</body>
+</html>
