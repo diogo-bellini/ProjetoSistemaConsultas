@@ -45,18 +45,21 @@ public class CadastroService implements ICadastroService {
                 medico.setSenha(passwordEncoder.encode(senha));
                 medico.setEspecialidade(especialidade);
                 medicoRepository.save(medico);
+                break;
             case "paciente":
                 Paciente paciente = (Paciente) pacienteFactory.createUsuario();
                 paciente.setNome(nome);
                 paciente.setEmail(email);
                 paciente.setSenha(passwordEncoder.encode(senha));
                 pacienteRepository.save(paciente);
+                break;
             case "admin":
                 Admin admin = (Admin) adminFactory.createUsuario();
                 admin.setNome(nome);
                 admin.setEmail(email);
                 admin.setSenha(passwordEncoder.encode(senha));
                 adminRepository.save(admin);
+                break;
             default:
                 throw new IllegalArgumentException("Tipo de usuário inválido: " + tipo);
         }
