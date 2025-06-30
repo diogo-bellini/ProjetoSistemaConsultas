@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Erro</title>
+</head>
+<body>
+<div class="container">
+    <h1>Ocorreu um erro</h1>
+    <p>Algo deu errado. Por favor, tente novamente mais tarde.</p>
+    <p th:if="${codigoErro == 404}">Página não encontrada (Erro 404).</p>
+    <p th:if="${codigoErro == 403}">Acesso negado (Erro 403).</p>
+    <p th:if="${codigoErro == 500}">Erro interno do servidor (Erro 500).</p>
+    <p th:if="${codigoErro != null and codigoErro != 404 and codigoErro != 403 and codigoErro != 500}">
+        Código do erro: <span th:text="${codigoErro}"></span>
+    </p>
+
+    <a th:href="@{/}" class="btn">Voltar para a página de login</a>
+</div>
+</body>
+</html>
