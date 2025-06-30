@@ -92,7 +92,7 @@ public class AgendamentoConsultaService implements IAgendamentoConsultaService {
         agendamentoConsultaRepository.save(agendamentoConsulta);
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 60000)
     @Transactional
     public void gerarConsultasConfirmadas() {
         LocalDate hoje = LocalDate.now();

@@ -13,7 +13,7 @@ public class ConsultaService implements IConsultaService {
     ConsultaRepository consultaRepository;
 
     public boolean existeConsulta(AgendamentoConsulta agendamento) {
-        return consultaRepository.existsConsulta(agendamento.getData(), agendamento.getHora(), agendamento.getMedico().getId(), agendamento.getPaciente().getId());
+        return consultaRepository.existsByDataAndHoraAndMedicoAndPaciente(agendamento.getData(), agendamento.getHora(), agendamento.getMedico(), agendamento.getPaciente());
     }
 
     public void criarConsulta(AgendamentoConsulta agendamento) {
