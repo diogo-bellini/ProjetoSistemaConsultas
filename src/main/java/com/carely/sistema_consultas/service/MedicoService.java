@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class MedicoService implements IMedicoService {
 
@@ -15,5 +17,14 @@ public class MedicoService implements IMedicoService {
 
     public Medico carregarMedicoEmail(String email) {
         return medicoRepository.findByEmail(email);
+    }
+
+    public Boolean existsById(long id){
+        return medicoRepository.existsById(id);
+    }
+
+    public Medico findById(long id){
+        return medicoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + id));
     }
 }
