@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Detalhes do Agendamento</title>
+</head>
+<body>
+<div class="container">
+    <h1>Detalhes do Agendamento</h1>
+
+    <section>
+        <h2>Informações do Agendamento</h2>
+        <p><strong>ID:</strong> <span th:text="${agendamento.id}"></span></p>
+        <p><strong>Data:</strong> <span th:text="${agendamento.data}"></span></p>
+        <p><strong>Hora:</strong> <span th:text="${agendamento.hora}"></span></p>
+        <p><strong>Status:</strong> <span th:text="${agendamento.status}"></span></p>
+    </section>
+
+    <section>
+        <h2>Informações do Paciente</h2>
+        <p><strong>Nome:</strong> <span th:text="${agendamento.paciente.nome}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${agendamento.paciente.email}"></span></p>
+    </section>
+
+    <section>
+        <h2>Ações</h2>
+        <form th:action="@{/medico/agendamento-consulta/{id}/confirmar(id=${agendamento.id})}" method="post" style="display:inline">
+            <button type="submit"
+                    th:disabled="${agendamento.status == 'Confirmada'}">Confirmar</button>
+        </form>
+
+        <form th:action="@{/medico/agendamento-consulta/{id}/reagendar(id=${agendamento.id})}" method="post" style="display:inline; margin-left:10px;">
+            <button type="submit"
+                    th:disabled="${agendamento.status == 'Cancelada'}">Reagendar</button>
+        </form>
+
+        <form th:action="@{/medico/agendamento-consulta/{id}/cancelar(id=${agendamento.id})}" method="post" style="display:inline; margin-left:10px;">
+            <button type="submit"
+                    th:disabled="${agendamento.status == 'Cancelada'}">Cancelar</button>
+        </form>
+    </section>
+
+    <a th:href="@{/medico/agendamento-consulta}" class="btn" style="display:block; margin-top:20px;">Voltar aos Agendamentos</a>
+</div>
+</body>
+</html>

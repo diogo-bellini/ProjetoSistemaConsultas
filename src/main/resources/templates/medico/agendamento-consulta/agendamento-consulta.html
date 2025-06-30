@@ -30,7 +30,7 @@
             <td th:text="${agendamento.status}">Pendente</td>
             <td th:text="${agendamento.paciente.nome}">Nome do Paciente</td>
             <td>
-                <a th:href="@{/medico/agendamento-consulta/{id}(id=${agendamento.id})}">Detalhes</a>
+                <a th:href="@{/medico/agendamento-consulta/detalhes/{id}(id=${agendamento.id})}">Detalhes</a>
             </td>
         </tr>
         </tbody>

@@ -2,13 +2,11 @@ package com.carely.sistema_consultas.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 
 import java.util.List;
 
 @Entity
 public class Paciente extends Usuario {
-
     @OneToMany(mappedBy = "paciente")
     private List<Consulta> consultas;
 
