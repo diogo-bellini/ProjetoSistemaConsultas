@@ -1,5 +1,6 @@
 package com.carely.sistema_consultas.service;
 
+import com.carely.sistema_consultas.controller.ICadastroService;
 import com.carely.sistema_consultas.entity.*;
 import com.carely.sistema_consultas.repository.AdminRepository;
 import com.carely.sistema_consultas.repository.MedicoRepository;
@@ -9,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CadastroService {
+public class CadastroService implements ICadastroService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;

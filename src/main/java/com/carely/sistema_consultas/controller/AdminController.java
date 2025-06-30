@@ -1,6 +1,5 @@
 package com.carely.sistema_consultas.controller;
 
-import com.carely.sistema_consultas.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     @Autowired
-    private AdminService adminService;
+    private IAdminService adminService;
 
     @GetMapping("/home")
     public String home(Model model) {
