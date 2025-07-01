@@ -94,13 +94,13 @@ public class AgendamentoConsulta {
     public void carregarEstado() {
         switch (this.status) {
             case "Pendente":
-                this.state = PendenteState.getInstancia();
+                this.setStateAgendamentoConsulta(PendenteState.getInstancia());
                 break;
             case "Confirmada":
-                this.state = ConfirmadaState.getInstancia();
+                this.setStateAgendamentoConsulta(ConfirmadaState.getInstancia());
                 break;
             case "Cancelada":
-                this.state = CanceladaState.getInstancia();
+                this.setStateAgendamentoConsulta(CanceladaState.getInstancia());
                 break;
         }
     }
