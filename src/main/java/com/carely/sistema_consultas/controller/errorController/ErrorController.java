@@ -10,10 +10,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/error")
 public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController{
-    @GetMapping
-    public String error(HttpServletRequest request, Model model){
+    @GetMapping("")
+    public String tratarError(HttpServletRequest request, Model model){
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        model.addAttribute("codigoErro", status);
+        Object errorMessage = request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
+
+        if (status != null) {
+            model.addAttribute("status", Integer.valueOf(status.toString()));
+        }
+
+        if (errorMessage != null && !errorMessage.toString().isEmpty()) {
+            model.addAttribute("error", errorMessage.toString());
+        }
+
         return "error";
     }
 }
