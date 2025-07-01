@@ -1,10 +1,7 @@
 package com.carely.sistema_consultas.service;
 
 import com.carely.sistema_consultas.controller.IAgendamentoConsultaService;
-import com.carely.sistema_consultas.entity.AgendamentoConsulta;
-import com.carely.sistema_consultas.entity.CanceladaState;
-import com.carely.sistema_consultas.entity.ConfirmadaState;
-import com.carely.sistema_consultas.entity.PendenteState;
+import com.carely.sistema_consultas.entity.*;
 import com.carely.sistema_consultas.repository.AgendamentoConsultaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -90,6 +87,11 @@ public class AgendamentoConsultaService implements IAgendamentoConsultaService {
         agendamentoConsulta.setHora(hora);
         agendamentoConsulta.reagendarAgendamento();
         agendamentoConsultaRepository.save(agendamentoConsulta);
+    }
+
+    @Override
+    public boolean existeAgendamento(LocalDate hoje, LocalTime agora, Medico medicoAux, Paciente pacienteAux) {
+        return agendamentoConsultaRepository.existsByDataAndHoraAndMedicoAndPaciente(hoje, agora, medicoAux, pacienteAux);
     }
 
     @Scheduled(fixedRate = 60000)
