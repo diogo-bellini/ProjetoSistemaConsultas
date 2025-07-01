@@ -13,6 +13,8 @@ public class Paciente extends Usuario {
     @OneToMany(mappedBy = "paciente")
     private List<AgendamentoConsulta> agendamentoConsultas;
 
+    protected Paciente() {}
+
     public List<Consulta> getConsultas() {
         return consultas;
     }

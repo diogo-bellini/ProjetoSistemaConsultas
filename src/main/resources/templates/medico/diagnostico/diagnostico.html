@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagnóstico da Consulta</title>
+</head>
+<body>
+<div class="container">
+    <h1>Diagnóstico da Consulta</h1>
+
+    <form th:action="@{/medico/diagnostico/salvar}" method="post">
+        <input type="hidden" name="consultaId" th:value="${consulta.id}" />
+
+        <div>
+            <label for="descricao"><strong>Descrição do Diagnóstico:</strong></label><br>
+            <textarea id="descricao" name="descricao" rows="5" cols="60"
+                      th:text="${consulta.diagnostico != null} ? ${consulta.diagnostico.descricao} : ''"
+                      placeholder="Descreva aqui o diagnóstico..."></textarea>
+        </div>
+
+        <button type="submit" style="margin-top: 10px;">Salvar Diagnóstico</button>
+    </form>
+
+    <hr>
+
+    <h2>Prescrições</h2>
+
+    <div th:if="${consulta.diagnostico != null and #lists.isEmpty(consulta.diagnostico.prescricoes)}">
+        <p>Não há prescrições cadastradas ainda.</p>
+    </div>
+
+    <table th:if="${consulta.diagnostico != null and !#lists.isEmpty(consulta.diagnostico.prescricoes)}" border="1" cellpadding="8" cellspacing="0">
+        <thead>
+        <tr>
+            <th>Medicamento</th>
+            <th>Dosagem</th>
+            <th>Frequência</th>
+            <th>Início</th>
+            <th>Fim</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="prescricao : ${consulta.diagnostico.prescricoes}">
+            <td th:text="${prescricao.medicamento}">Paracetamol</td>
+            <td th:text="${prescricao.dosagem}">500mg</td>
+            <td th:text="${prescricao.frequencia}">2x ao dia</td>
+            <td th:text="${prescricao.dataInicio}">2025-07-01</td>
+            <td th:text="${prescricao.dataFim}">2025-07-10</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <h3>Adicionar Nova Prescrição</h3>
+    <form th:action="@{/medico/diagnostico/prescricao/adicionar}" method="post">
+        <input type="hidden" name="diagnosticoId" th:value="${consulta.diagnostico != null} ? ${consulta.diagnostico.id} : 0" />
+
+        <div>
+            <label for="medicamento">Medicamento:</label><br>
+            <input type="text" id="medicamento" name="medicamento" required />
+        </div>
+
+        <div>
+            <label for="dosagem">Dosagem:</label><br>
+            <input type="text" id="dosagem" name="dosagem" required />
+        </div>
+
+        <div>
+            <label for="frequencia">Frequência:</label><br>
+            <input type="text" id="frequencia" name="frequencia" required />
+        </div>
+
+        <div>
+            <label for="dataInicio">Data de Início:</label><br>
+            <input type="date" id="dataInicio" name="dataInicio" required />
+        </div>
+
+        <div>
+            <label for="dataFim">Data de Fim:</label><br>
+            <input type="date" id="dataFim" name="dataFim" required />
+        </div>
+
+        <button type="submit" style="margin-top: 10px;">Adicionar Prescrição</button>
+    </form>
+
+    <a th:href="@{/medico/home}" style="display:block; margin-top: 20px;">Voltar</a>
+</div>
+</body>
+</html>

@@ -19,6 +19,7 @@
             <th>Data</th>
             <th>Hora</th>
             <th>Paciente</th>
+            <th>Ações</th>
         </tr>
         </thead>
         <tbody>
@@ -26,6 +27,9 @@
             <td th:text="${consulta.data}">2025-01-01</td>
             <td th:text="${consulta.hora}">14:00</td>
             <td th:text="${consulta.paciente.nome}">Nome do Paciente</td>
+            <td>
+                <a th:href="@{/medico/consulta/detalhes/{id}(id=${consulta.id})}">Detalhes</a>
+            </td>
         </tr>
         </tbody>
     </table>

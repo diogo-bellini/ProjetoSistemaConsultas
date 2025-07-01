@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -21,5 +22,11 @@ public class ConsultaMedicoController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("medico", medicoService.carregarMedicoComConsultas(email));
         return "medico/consulta/consulta";
+    }
+
+    @GetMapping("/detalhes/{id}")
+    public String detalhesAgendamentos(Model model, @PathVariable Long id){
+        model.addAttribute("consulta", consultaService.carregarConsultaComPaciente(id));
+        return "medico/consulta/detalhes-consulta";
     }
 }

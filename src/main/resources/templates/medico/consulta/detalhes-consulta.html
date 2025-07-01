@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Detalhes da Consulta</title>
+    <style>
+        .container { max-width: 600px; margin: auto; font-family: sans-serif; }
+        section { margin-bottom: 20px; }
+        button[disabled] { opacity: 0.6; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Detalhes da Consulta</h1>
+
+    <section>
+        <h2>Informações da Consulta</h2>
+        <p><strong>ID:</strong> <span th:text="${consulta.id}"></span></p>
+        <p><strong>Data:</strong> <span th:text="${#temporals.format(consulta.data, 'dd/MM/yyyy')}"></span></p>
+        <p><strong>Hora:</strong> <span th:text="${#temporals.format(consulta.hora, 'HH:mm')}"></span></p>
+    </section>
+
+    <section>
+        <h2>Informações do Paciente</h2>
+        <p><strong>Nome:</strong> <span th:text="${consulta.paciente.nome}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${consulta.paciente.email}"></span></p>
+    </section>
+
+    <section>
+        <h2>Ações</h2>
+
+        <form th:action="@{/medico/diagnostico/{id}(id=${consulta.id})}"
+              method="get" style="display:inline;">
+            <button type="submit"> Diagnostico </button>
+        </form>
+    </section>
+
+    <a th:href="@{/medico/consulta}" style="display:block; margin-top:20px;">Voltar as Consultas</a>
+</div>
+</body>
+</html>

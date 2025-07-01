@@ -17,6 +17,8 @@ public class Medico extends Usuario {
     @OneToMany(mappedBy = "medico")
     private List<AgendamentoConsulta> agendamentoConsultas;
 
+    protected Medico() {}
+
     public String getEspecialidade() {
         return especialidade;
     }
