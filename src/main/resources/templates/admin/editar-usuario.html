@@ -41,7 +41,7 @@
 
 <h1>Editar Usuário</h1>
 
-<form th:action="@{/admin/usuarios/editar}" method="post">
+<form th:action="@{/admin/usuarios/editar/{id}(id=${usuario.id})}" method="post">
   <input type="hidden" name="id" th:value="${usuario.id}" />
 
   <label for="nome">Nome:</label>
@@ -50,10 +50,13 @@
   <label for="email">Email:</label>
   <input type="email" id="email" name="email" th:value="${usuario.email}" required />
 
-  <label for="tipo">Tipo:</label>
-  <input type="text" id="tipo" name="tipo" th:value="${usuario.tipo}" disabled />
+  <label for="senha">Nova Senha:</label>
+  <input type="password" id="senha" name="senha" placeholder="Deixe em branco para manter a senha atual" />
 
-  <div th:if="${usuario.tipo == 'Medico'}">
+  <label for="tipo">Tipo:</label>
+  <input type="text" id="tipo" name="tipo" th:value="${tipo}" disabled />
+
+  <div th:if="${tipo == 'Medico'}">
     <label for="especialidade">Especialidade:</label>
     <input type="text" id="especialidade" name="especialidade" th:value="${usuario.especialidade}" />
   </div>

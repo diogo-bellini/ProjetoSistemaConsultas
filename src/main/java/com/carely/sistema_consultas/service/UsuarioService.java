@@ -18,7 +18,7 @@ public class UsuarioService implements IUsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Usuario findById(long id) {
+    public Usuario findById(Long id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + id));
     }

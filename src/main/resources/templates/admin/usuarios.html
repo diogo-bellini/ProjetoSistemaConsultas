@@ -26,8 +26,25 @@
         cursor: pointer;
         display: inline-block;
     }
-    a.button.delete {
+    button.button.delete {
+        padding: 10px 20px;
         background-color: #f44336;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1em;
+    }
+    form.inline {
+        display: inline;
+        margin: 0;
+    }
+    .voltar-container {
+        text-align: center;
+        margin-top: 30px;
+    }
+    a.button.voltar {
+        background-color: #2196F3;
     }
   </style>
 </head>
@@ -51,12 +68,19 @@
     <td th:text="${usuario.email}">joao@email.com</td>
     <td>
       <a class="button" th:href="@{'/admin/usuarios/editar/' + ${usuario.id}}">Editar</a>
-      <a class="button delete" th:href="@{'/admin/usuarios/deletar/' + ${usuario.id}}"
-         onclick="return confirm('Tem certeza que deseja excluir este usuário?')">Excluir</a>
+
+      <form th:action="@{'/admin/usuarios/excluir/' + ${usuario.id}}" method="post" class="inline"
+            onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');">
+        <button type="submit" class="button delete">Excluir</button>
+      </form>
     </td>
   </tr>
   </tbody>
 </table>
+
+<div class="voltar-container">
+  <a href="/admin/home" class="button voltar">Voltar</a>
+</div>
 
 </body>
 </html>
