@@ -49,7 +49,7 @@
                                         <td style="display: flex; gap: 0.5rem; align-items: center;">
                                             <a th:href="@{/paciente/consultas/agendamento/{id}/reagendar(id=${ag.id})}" class="btn btn-secondary">Reagendar</a>
                                             <form th:action="@{/paciente/consultas/agendamento/{id}/cancelar(id=${ag.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja cancelar esta consulta?');">
-                                                <button type="submit" class="btn-link" style="color: #e53e3e;">Cancelar</button>
+                                                <button type="submit" class="btn" style="background-color: #c53030; color: white;"><i class="bi bi-x-circle"></i>Cancelar</button>
                                             </form>
                                         </td>
                                     </tr>
