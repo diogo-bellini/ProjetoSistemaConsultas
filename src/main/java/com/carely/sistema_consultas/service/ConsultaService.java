@@ -1,6 +1,8 @@
 package com.carely.sistema_consultas.service;
 
-import com.carely.sistema_consultas.controller.IConsultaService;
+import com.carely.sistema_consultas.controller.consultaMedicoController.IConsultaServiceConsultaMedico;
+import com.carely.sistema_consultas.controller.consultaPacienteController.IConsultaServiceConsultaPaciente;
+import com.carely.sistema_consultas.controller.diagnosticoMedicoController.IConsultaServiceDiagnosticoMedico;
 import com.carely.sistema_consultas.entity.AgendamentoConsulta;
 import com.carely.sistema_consultas.entity.Consulta;
 import com.carely.sistema_consultas.repository.ConsultaRepository;
@@ -8,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ConsultaService implements IConsultaService {
+public class ConsultaService implements IConsultaServiceConsultaMedico, IConsultaServiceConsultaPaciente, IConsultaServiceDiagnosticoMedico {
     @Autowired
     ConsultaRepository consultaRepository;
 

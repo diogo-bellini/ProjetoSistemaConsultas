@@ -1,6 +1,10 @@
 package com.carely.sistema_consultas.service;
 
-import com.carely.sistema_consultas.controller.IPacienteService;
+import com.carely.sistema_consultas.infra.seed.IPacienteServiceSeed;
+import com.carely.sistema_consultas.controller.adminController.IPacienteServiceAdmin;
+import com.carely.sistema_consultas.controller.agendamentoConsultaPacienteController.IPacienteServiceAgendamentoConsultaPaciente;
+import com.carely.sistema_consultas.controller.consultaPacienteController.IPacienteServiceConsultaPaciente;
+import com.carely.sistema_consultas.controller.pacienteController.IPacienteServicePaciente;
 import com.carely.sistema_consultas.entity.Paciente;
 import com.carely.sistema_consultas.entity.PacienteFactory;
 import com.carely.sistema_consultas.repository.PacienteRepository;
@@ -9,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PacienteService implements IPacienteService {
+public class PacienteService implements IPacienteServiceSeed, IPacienteServiceAdmin, IPacienteServiceAgendamentoConsultaPaciente, IPacienteServiceConsultaPaciente, IPacienteServicePaciente {
     
     @Autowired
     private PasswordEncoder passwordEncoder;
