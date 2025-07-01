@@ -1,94 +1,110 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title>Reagendar Consulta</title>
     <meta charset="UTF-8">
-    <title>Reagendar Agendamento</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <style>
-        .hora-btn {
-            margin: 5px;
-            padding: 8px 12px;
-            border: none;
-            background-color: #e0ffe0;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .hora-btn.selected {
-            background-color: #007bff;
-            color: white;
-        }
-        .hora-btn:disabled {
-            background-color: #f8d7da;
-            color: #555;
-            cursor: not-allowed;
-        }
+        .time-slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 0.5rem; }
+        .time-slot { cursor: pointer; border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem; text-align: center; transition: all 0.2s; }
+        .time-slot:hover:not(.disabled) { border-color: var(--teal); background-color: #f0fdfa; }
+        .time-slot.selected { background-color: var(--medium-blue); color: white; border-color: var(--medium-blue); }
+        .time-slot.disabled { background-color: #f1f5f9; color: var(--text-light); cursor: not-allowed; text-decoration: line-through; }
+        .alert-error { padding: 1rem; margin-bottom: 1.5rem; border-radius: 6px; background-color: #fed7d7; color: #c53030; border: 1px solid #fbb6b6; }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Reagendar Agendamento</h1>
+    <header class="main-header">
+        <a th:href="@{/medico/home}" class="brand">Care.ly - Área do Médico</a>
+    </header>
 
-    <p><strong>Data atual:</strong> <span th:text="${agendamento.data}"></span></p>
-    <p><strong>Hora atual:</strong> <span th:text="${agendamento.hora}"></span></p>
+    <main>
+        <div class="card">
+            <div class="card-header">
+                <h2>Reagendar Consulta</h2>
+            </div>
+            <div class="card-body">
+                <p>Reagendamento para <strong th:text="${agendamento.paciente.nome}"></strong>.</p>
+                <p><strong>Data/Hora atual:</strong> <span th:text="${#temporals.format(agendamento.data, 'dd/MM/yyyy')}"></span> às <span th:text="${#temporals.format(agendamento.hora, 'HH:mm')}"></span></p>
 
-    <form th:action="@{/medico/agendamento-consulta/{id}/reagendar(id=${agendamento.id})}" method="post">
-        <input type="hidden" id="novaData" name="novaData" required />
-        <input type="hidden" id="novaHora" name="novaHora" required />
+                <div th:if="${erro}" class="alert-error">
+                    <p th:text="${erro}" style="margin: 0;"></p>
+                </div>
+                
+                <form id="form-reagendamento" th:action="@{/medico/agendamento-consulta/{id}/reagendar(id=${agendamento.id})}" method="post">
+                    <input type="hidden" id="novaData" name="novaData" required />
+                    <input type="hidden" id="novaHora" name="novaHora" required />
+            
+                    <div class="form-group">
+                        <label for="diaSelect">Selecione uma nova data:</label>
+                        <select id="diaSelect" onchange="mostrarHorarios()" required>
+                            <option value="">-- Escolha um dia --</option>
+                            <option th:each="dia : ${dias}"
+                                    th:value="${#temporals.format(dia, 'yyyy-MM-dd')}"
+                                    th:text="${#temporals.format(dia, 'dd/MM/yyyy (EEE)')}">
+                            </option>
+                        </select>
+                    </div>
 
-        <label for="diaSelect"><strong>Selecione um dia:</strong></label>
-        <select id="diaSelect" onchange="mostrarHorarios()" required>
-            <option value="">-- Escolha um dia --</option>
-            <option th:each="dia : ${dias}"
-                    th:value="${#temporals.format(dia, 'yyyy-MM-dd')}"
-                    th:text="${#temporals.format(dia, 'dd/MM/yyyy (EEE)')}">
-            </option>
-        </select>
-
-        <div id="horariosContainer" style="margin-top: 20px;"></div>
-
-        <div th:if="${erro}" style="color: red; margin-top: 20px;">
-            <p th:text="${erro}"></p>
+                    <div id="horariosContainer" class="form-group" style="display: none;">
+                        <label>Selecione um novo horário:</label>
+                        <div class="time-slot-grid"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer" style="display: flex; gap: 1rem;">
+                <button type="submit" form="form-reagendamento" class="btn btn-primary">Confirmar Reagendamento</button>
+                <a th:href="@{/medico/agendamento-consulta/detalhes/{id}(id=${agendamento.id})}" class="btn btn-secondary">Cancelar</a>
+            </div>
         </div>
+    </main>
 
-        <button type="submit" style="margin-top: 20px;">Confirmar reagendamento</button>
-        <a th:href="@{/medico/agendamento-consulta/detalhes/{id}(id=${agendamento.id})}" style="margin-left: 15px;">Cancelar</a>
-    </form>
-</div>
+    <footer class="main-footer">
+        &copy; 2025 Care.ly - Todos os direitos reservados.
+    </footer>
+    
+    <script th:inline="javascript">
+        const bloqueados = new Set(/*[[${bloqueados}]]*/);
+        const horarios = /*[[${horarios}]]*/ [];
+        const horariosContainer = document.querySelector("#horariosContainer .time-slot-grid");
 
-<script th:inline="javascript">
-    const bloqueados = /*[[${bloqueados}]]*/ [];
-    const horarios = /*[[${horarios}]]*/ [];
+        function mostrarHorarios() {
+            const dataSelecionada = document.getElementById("diaSelect").value;
+            horariosContainer.innerHTML = "";
+            document.getElementById("novaData").value = dataSelecionada;
+            document.getElementById("novaHora").value = "";
 
-    function mostrarHorarios() {
-        const dataSelecionada = document.getElementById("diaSelect").value;
-        const container = document.getElementById("horariosContainer");
-        container.innerHTML = "";
-        document.getElementById("novaData").value = dataSelecionada;
-        document.getElementById("novaHora").value = "";
-
-        if (!dataSelecionada) return;
-
-        horarios.forEach(hora => {
-            const horaStr = hora.substring(0,5);
-            const chave = dataSelecionada + "_" + horaStr;
-
-            const botao = document.createElement("button");
-            botao.type = "button";
-            botao.textContent = horaStr;
-            botao.className = "hora-btn";
-            if (bloqueados.includes(chave)) {
-                botao.disabled = true;
-            } else {
-                botao.onclick = () => selecionarHora(botao, horaStr);
+            if (!dataSelecionada) {
+                document.getElementById("horariosContainer").style.display = "none";
+                return;
             }
-            container.appendChild(botao);
-        });
-    }
 
-    function selecionarHora(botao, hora) {
-        document.querySelectorAll(".hora-btn").forEach(btn => btn.classList.remove("selected"));
-        botao.classList.add("selected");
-        document.getElementById("novaHora").value = hora;
-    }
-</script>
+            document.getElementById("horariosContainer").style.display = "block";
+            horarios.forEach(hora => {
+                const horaStr = hora.substring(0,5);
+                const chave = dataSelecionada + "_" + horaStr;
+                const botao = document.createElement("button");
+                botao.type = "button";
+                botao.textContent = horaStr;
+                botao.className = "time-slot";
+                if (bloqueados.has(chave)) {
+                    botao.disabled = true;
+                } else {
+                    botao.onclick = () => selecionarHora(botao, horaStr);
+                }
+                horariosContainer.appendChild(botao);
+            });
+        }
+        function selecionarHora(botao, hora) {
+            document.querySelectorAll(".time-slot").forEach(btn => btn.classList.remove("selected"));
+            botao.classList.add("selected");
+            document.getElementById("novaHora").value = hora;
+        }
+    </script>
 </body>
 </html>
