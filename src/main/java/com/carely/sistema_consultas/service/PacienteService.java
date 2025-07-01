@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PacienteService implements IPacienteService {
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private PacienteRepository pacienteRepository;
@@ -33,6 +36,16 @@ public class PacienteService implements IPacienteService {
         pacienteRepository.save(paciente);
     }
 
+     public void atualizarPerfil(Paciente paciente, String senha){
+        Paciente aux = pacienteRepository.findByEmail(paciente.getEmail());
+        aux.setNome(paciente.getNome());
+        aux.setEmail(paciente.getEmail());
+        if(senha != null && !senha.isEmpty()){
+            aux.setSenha(passwordEncoder.encode(senha));
+        }
+        pacienteRepository.save(aux);
+    }
+
     public Paciente findById(Long id){
         return pacienteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado com id: " + id));
@@ -40,6 +53,16 @@ public class PacienteService implements IPacienteService {
 
     public void deleteById(Long id){
         pacienteRepository.deleteById(id);
+    }
+
+    @Override
+    public Paciente carregarPacienteComConsultas(String email) {
+        return pacienteRepository.findWithConsultasByEmail(email);
+    }
+
+    @Override
+    public Paciente carregarPacienteComAgendamentos(String email) {
+        return pacienteRepository.findWithAgendamentosByEmail(email);
     }
 
 }

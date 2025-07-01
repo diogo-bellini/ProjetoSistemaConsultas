@@ -3,7 +3,6 @@ package com.carely.sistema_consultas.service;
 import com.carely.sistema_consultas.controller.IAdminService;
 import com.carely.sistema_consultas.entity.Admin;
 import com.carely.sistema_consultas.entity.AdminFactory;
-import com.carely.sistema_consultas.entity.Usuario;
 import com.carely.sistema_consultas.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

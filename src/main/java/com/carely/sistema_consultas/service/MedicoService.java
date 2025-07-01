@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class MedicoService implements IMedicoService {
@@ -45,12 +46,14 @@ public class MedicoService implements IMedicoService {
         medicoRepository.save(aux);
     }
 
-    public Medico findById(Long id){
+    @Override
+    public Medico findById(long id) {
         return medicoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Médico com ID " + id + " não encontrado."));
     }
 
-    public Boolean existsById(Long id){
+    @Override
+    public Boolean existsById(long id) {
         return medicoRepository.existsById(id);
     }
 
@@ -65,4 +68,22 @@ public class MedicoService implements IMedicoService {
     public void deleteById(Long id){
         medicoRepository.deleteById(id);
     }
+
+    @Override
+    public List<String> buscarTodasEspecialidades() {
+        return medicoRepository.findDistinctEspecialidades();
+    }
+
+    @Override
+    public List<Medico> buscarMedicos(String especialidade, String email) {
+        if (email != null && !email.isEmpty()) {
+            Medico medico = medicoRepository.findByEmail(email);
+            return medico != null ? Collections.singletonList(medico) : Collections.emptyList();
+        }
+        if (especialidade != null && !especialidade.isEmpty()) {
+            return medicoRepository.findByEspecialidade(especialidade);
+        }
+        return Collections.emptyList(); // Retorna vazio se nenhum critério for fornecido
+    }
+
 }
