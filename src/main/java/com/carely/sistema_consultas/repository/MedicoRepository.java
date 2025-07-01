@@ -10,4 +10,7 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
 
     @EntityGraph(attributePaths = "agendamentoConsultas")
     Medico findWithAgendamentosByEmail(String email);
+
+    @EntityGraph(attributePaths = "consultas")
+    Medico findWithConsultasByEmail(String email);
 }

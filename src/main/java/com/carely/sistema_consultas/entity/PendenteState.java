@@ -32,6 +32,6 @@ public class PendenteState implements StateAgendamentoConsulta{
 
     @Override
     public void reagendarAgendamento(AgendamentoConsulta agendamentoConsulta) {
-
+        agendamentoConsulta.setStateAgendamentoConsulta(PendenteState.getInstancia());
     }
 }
