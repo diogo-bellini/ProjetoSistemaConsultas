@@ -40,5 +40,4 @@ public class ConsultaService implements IConsultaService {
                 .orElseThrow(() -> new IllegalArgumentException("Consulta com ID " + id + " não encontrada."));
     }
 
-
 }
