@@ -1,17 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home - Médico</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>Bem-vindo(a), Dr(a). <span th:text="${medico.nome}">Médico</span>!<br><span th:text="${medico.especialidade}">Especialidade</span>!</h1>
-<h2>Área do Médico</h2>
+    <header class="main-header">
+        <a th:href="@{/medico/home}" class="brand">Care.ly - Área do Médico</a>
+    </header>
 
-<ul>
-    <li><a th:href="@{/medico/agendamento-consulta}">Agenda</a></li>
-    <li><a th:href="@{/medico/consulta}">Consultas</a></li>
-    <li><a th:href="@{/medico/editar-perfil}">Editar Perfil</a></li>
-    <li><a th:href="@{/logout}">Sair</a></li>
-</ul>
+    <main>
+        <h1>Bem-vindo(a), Dr(a). <span th:text="${medico.nome}">Médico</span>!</h1>
+        <h2 class="subtitle" th:text="${medico.especialidade}">Especialidade</h2>
+
+        <ul class="action-list">
+            <li><a th:href="@{/medico/agendamento-consulta}"><i class="bi bi-calendar-week-fill"></i> Ver Agenda de Agendamentos</a></li>
+            <li><a th:href="@{/medico/consulta}"><i class="bi bi-journal-medical"></i> Ver Histórico de Consultas</a></li>
+            <li><a th:href="@{/medico/editar-perfil}"><i class="bi bi-person-fill-gear"></i> Editar Perfil</a></li>
+            <li><a th:href="@{/logout}"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
+        </ul>
+    </main>
+
+    <footer class="main-footer">
+        &copy; 2025 Care.ly - Todos os direitos reservados.
+    </footer>
 </body>
 </html>

@@ -1,41 +1,46 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
     <title>Detalhes da Consulta</title>
-    <style>
-        .container { max-width: 600px; margin: auto; font-family: sans-serif; }
-        section { margin-bottom: 20px; }
-        button[disabled] { opacity: 0.6; cursor: not-allowed; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<div class="container">
-    <h1>Detalhes da Consulta</h1>
+    <header class="main-header">
+        <a th:href="@{/medico/home}" class="brand">Care.ly - Área do Médico</a>
+    </header>
 
-    <section>
-        <h2>Informações da Consulta</h2>
-        <p><strong>ID:</strong> <span th:text="${consulta.id}"></span></p>
-        <p><strong>Data:</strong> <span th:text="${#temporals.format(consulta.data, 'dd/MM/yyyy')}"></span></p>
-        <p><strong>Hora:</strong> <span th:text="${#temporals.format(consulta.hora, 'HH:mm')}"></span></p>
-    </section>
+    <main>
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="bi bi-file-earmark-medical"></i> Detalhes da Consulta</h2>
+            </div>
+            <div class="card-body">
+                <h3>Informações do Paciente</h3>
+                <p><strong>Nome:</strong> <span th:text="${consulta.paciente.nome}"></span></p>
+                <p><strong>Email:</strong> <span th:text="${consulta.paciente.email}"></span></p>
+                <hr style="margin: 1.5rem 0;">
 
-    <section>
-        <h2>Informações do Paciente</h2>
-        <p><strong>Nome:</strong> <span th:text="${consulta.paciente.nome}"></span></p>
-        <p><strong>Email:</strong> <span th:text="${consulta.paciente.email}"></span></p>
-    </section>
+                <h3>Informações da Consulta</h3>
+                <p><strong>Data:</strong> <span th:text="${#temporals.format(consulta.data, 'dd/MM/yyyy')}"></span></p>
+                <p><strong>Hora:</strong> <span th:text="${#temporals.format(consulta.hora, 'HH:mm')}"></span></p>
+            </div>
+            <div class="card-footer" style="display: flex; justify-content: space-between; align-items: center;">
+                <a th:href="@{/medico/diagnostico/{id}(id=${consulta.id})}" class="btn btn-primary">
+                    <i class="bi bi-file-medical"></i> Adicionar/Ver Diagnóstico
+                </a>
+                <a th:href="@{/medico/consulta}" class="btn btn-secondary">Voltar</a>
+            </div>
+        </div>
+    </main>
 
-    <section>
-        <h2>Ações</h2>
-
-        <form th:action="@{/medico/diagnostico/{id}(id=${consulta.id})}"
-              method="get" style="display:inline;">
-            <button type="submit"> Diagnostico </button>
-        </form>
-    </section>
-
-    <a th:href="@{/medico/consulta}" style="display:block; margin-top:20px;">Voltar as Consultas</a>
-</div>
+    <footer class="main-footer">
+        &copy; 2025 Care.ly - Todos os direitos reservados.
+    </footer>
 </body>
 </html>

@@ -1,103 +1,126 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Diagnóstico da Consulta</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<div class="container">
-    <h1>Diagnóstico da Consulta</h1>
+    <header class="main-header">
+        <a th:href="@{/medico/home}" class="brand">Care.ly - Área do Médico</a>
+    </header>
 
-    <form th:action="@{/medico/diagnostico/salvar}" method="post">
-        <input type="hidden" name="consultaId" th:value="${consulta.id}" />
-
-        <div>
-            <label for="descricao"><strong>Descrição do Diagnóstico:</strong></label><br>
-            <textarea id="descricao" name="descricao" rows="5" cols="60"
-                      th:text="${consulta.diagnostico != null} ? ${consulta.diagnostico.descricao} : ''"
-                      placeholder="Descreva aqui o diagnóstico..."></textarea>
+    <main>
+        <div style="margin-bottom: 2rem;">
+            <h1>Diagnóstico e Prescrição</h1>
+            <p class="subtitle" style="margin: 0;">Paciente: <strong th:text="${consulta.paciente.nome}"></strong></p>
         </div>
 
-        <button type="submit" style="margin-top: 10px;">Salvar Diagnóstico</button>
-    </form>
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="bi bi-file-earmark-medical"></i> Diagnóstico</h2>
+            </div>
+            <form th:action="@{/medico/diagnostico/salvar}" method="post">
+                <div class="card-body">
+                    <input type="hidden" name="consultaId" th:value="${consulta.id}" />
+                    <div class="form-group">
+                        <label for="descricao">Descrição do Diagnóstico:</label>
+                        <textarea id="descricao" name="descricao" rows="6"
+                                  th:text="${consulta.diagnostico?.descricao}"
+                                  placeholder="Descreva aqui o quadro clínico, o diagnóstico do paciente..."></textarea>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Salvar Diagnóstico</button>
+                </div>
+            </form>
+        </div>
 
-    <hr>
+        <div th:if="${consulta.diagnostico != null}">
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="bi bi-card-list"></i> Prescrições Cadastradas</h2>
+                </div>
+                <div class="card-body">
+                    <div th:if="${#lists.isEmpty(consulta.diagnostico.prescricoes)}">
+                        <p>Não há prescrições para este diagnóstico ainda.</p>
+                    </div>
+                    <div th:unless="${#lists.isEmpty(consulta.diagnostico.prescricoes)}" style="overflow-x: auto;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Medicamento</th>
+                                    <th>Dosagem</th>
+                                    <th>Frequência</th>
+                                    <th style="text-align: right;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="prescricao : ${consulta.diagnostico.prescricoes}">
+                                    <td th:text="${prescricao.medicamento}"></td>
+                                    <td th:text="${prescricao.dosagem}"></td>
+                                    <td th:text="${prescricao.frequencia}"></td>
+                                    <td style="text-align: right;">
+                                        <a th:href="@{/medico/prescricao/editar/{id}(id=${prescricao.id})}" class="btn btn-secondary">Editar</a>
+                                        <form th:action="@{/medico/prescricao/excluir/{id}(id=${prescricao.id})}" method="post" style="display:inline;" onsubmit="return confirm('Deseja realmente excluir?');">
+                                            <button type="submit" class="btn-link" style="color: #c53030;">Excluir</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-    <h2>Prescrições</h2>
-
-    <div th:if="${consulta.diagnostico != null and #lists.isEmpty(consulta.diagnostico.prescricoes)}">
-        <p>Não há prescrições cadastradas ainda.</p>
-    </div>
-
-    <table th:if="${consulta.diagnostico != null and !#lists.isEmpty(consulta.diagnostico.prescricoes)}" border="1" cellpadding="8" cellspacing="0">
-        <thead>
-        <tr>
-            <th>Medicamento</th>
-            <th>Dosagem</th>
-            <th>Frequência</th>
-            <th>Início</th>
-            <th>Fim</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="prescricao : ${consulta.diagnostico.prescricoes}">
-            <td th:text="${prescricao.medicamento}">Paracetamol</td>
-            <td th:text="${prescricao.dosagem}">500mg</td>
-            <td th:text="${prescricao.frequencia}">2x ao dia</td>
-            <td th:text="${prescricao.dataInicio}">2025-07-01</td>
-            <td th:text="${prescricao.dataFim}">2025-07-10</td>
-            <td>
-                <a th:href="@{/medico/prescricao/editar/{id}(id=${prescricao.id})}">
-                    <button type="button">Editar</button>
-                </a>
-
-                <form th:action="@{/medico/prescricao/excluir/{id}(id=${prescricao.id})}" method="post" style="display:inline;">
-                    <input type="hidden" name="_method" value="delete"/> <!-- necessário se usar @DeleteMapping -->
-                    <button type="submit" onclick="return confirm('Deseja realmente excluir esta prescrição?');">Excluir</button>
+            <div class="card">
+                <div class="card-header">
+                     <h2><i class="bi bi-plus-circle-fill"></i> Adicionar Nova Prescrição</h2>
+                </div>
+                <form th:action="@{/medico/prescricao/adicionar}" method="post">
+                    <div class="card-body">
+                        <input type="hidden" name="diagnosticoId" th:value="${consulta.diagnostico.id}" />
+                        <div class="form-group">
+                            <label for="medicamento">Medicamento:</label>
+                            <input type="text" id="medicamento" name="medicamento" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="dosagem">Dosagem:</label>
+                            <input type="text" id="dosagem" name="dosagem" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="frequencia">Frequência:</label>
+                            <input type="text" id="frequencia" name="frequencia" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="dataInicio">Data de Início:</label>
+                            <input type="date" id="dataInicio" name="dataInicio" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="dataFim">Data de Fim:</label>
+                            <input type="date" id="dataFim" name="dataFim" required />
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Adicionar Prescrição</button>
+                    </div>
                 </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <hr>
-
-    <div th:if="${consulta.diagnostico != null}">
-        <h3>Adicionar Nova Prescrição</h3>
-        <form th:action="@{/medico/prescricao/adicionar-prescricao}" method="post">
-                <input type="hidden" name="diagnosticoId" th:value="${consulta.diagnostico.id}" />
-
-            <div>
-                <label for="medicamento">Medicamento:</label><br>
-                <input type="text" id="medicamento" name="medicamento" required />
             </div>
+        </div>
 
-            <div>
-                <label for="dosagem">Dosagem:</label><br>
-                <input type="text" id="dosagem" name="dosagem" required />
-            </div>
+        <div style="margin-top: 2rem;">
+             <a th:href="@{/medico/consulta/detalhes/{id}(id=${consulta.id})}" class="btn btn-secondary">Voltar aos Detalhes da Consulta</a>
+        </div>
+    </main>
 
-            <div>
-                <label for="frequencia">Frequência:</label><br>
-                <input type="text" id="frequencia" name="frequencia" required />
-            </div>
-
-            <div>
-                <label for="dataInicio">Data de Início:</label><br>
-                <input type="date" id="dataInicio" name="dataInicio" required />
-            </div>
-
-            <div>
-                <label for="dataFim">Data de Fim:</label><br>
-                <input type="date" id="dataFim" name="dataFim" required />
-            </div>
-
-            <button type="submit" style="margin-top: 10px;">Adicionar Prescrição</button>
-        </form>
-    </div>
-
-    <a th:href="@{/medico/home}" style="display:block; margin-top: 20px;">Voltar</a>
-</div>
+    <footer class="main-footer">
+        &copy; 2025 Care.ly - Todos os direitos reservados.
+    </footer>
 </body>
 </html>
