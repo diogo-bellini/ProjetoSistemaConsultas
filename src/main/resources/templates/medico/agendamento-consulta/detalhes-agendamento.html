@@ -37,16 +37,18 @@
                         <i class="bi bi-check-lg"></i> Confirmar
                     </button>
                 </form>
-                
-                <a th:href="@{/medico/agendamento-consulta/{id}/reagendar(id=${agendamento.id})}" class="btn btn-secondary"
-                   th:classappend="${agendamento.status == 'Cancelada'} ? 'disabled' : ''">
-                    <i class="bi bi-calendar-event"></i> Reagendar
-                </a>
-                
+
+                <form th:action="@{/medico/agendamento-consulta/{id}/reagendar(id=${agendamento.id})}" method="get">
+                    <button type="submit" class="btn btn-secondary" th:disabled="${agendamento.status == 'Cancelada'}">
+                        <i class="bi bi-calendar-event"></i> Reagendar
+                    </button>
+                </form>
+
+
                 <form th:action="@{/medico/agendamento-consulta/{id}/cancelar(id=${agendamento.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja cancelar este agendamento?');">
-                    <button type="submit" class="btn-link" style="color: #c53030;"
+                    <button type="submit" class="btn" style="background-color: #c53030; color: white;"
                             th:disabled="${agendamento.status == 'Cancelada'}">
-                        Cancelar Agendamento
+                        <i class="bi bi-x-circle"></i>Cancelar Agendamento
                     </button>
                 </form>
                 
