@@ -86,7 +86,7 @@ public class AgendamentoConsulta {
     }
 
     public AgendamentoConsulta() {
-        this.state = PendenteState.getInstancia();
+        this.setStateAgendamentoConsulta(PendenteState.getInstancia());
         this.status = state.getStatus();
     }
 
