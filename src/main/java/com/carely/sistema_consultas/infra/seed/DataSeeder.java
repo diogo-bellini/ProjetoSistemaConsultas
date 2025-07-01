@@ -7,6 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Component
 public class DataSeeder implements CommandLineRunner {
     @Autowired
@@ -56,12 +59,21 @@ public class DataSeeder implements CommandLineRunner {
 
         Medico medico_aux = medicoService.carregarMedicoEmail("medico@teste.com");
         Paciente paciente_aux = pacienteService.carregarPacienteEmail("paciente@teste.com");
-        AgendamentoConsulta agendamento = new AgendamentoConsulta();
-        agendamento.setMedico(medico_aux);
-        agendamento.setPaciente(paciente_aux);
-        agendamento.setData(java.time.LocalDate.now());
-        agendamento.setHora(java.time.LocalTime.now());
-        agendamento.setStateAgendamentoConsulta(PendenteState.getInstancia());
-        agendamentoConsultaService.salvarAgendamento(agendamento);
+
+        LocalDate hoje = LocalDate.of(2020, 1, 1);
+        LocalTime agora = LocalTime.of(8, 0);
+
+        boolean existeAgendamento = agendamentoConsultaService.existeAgendamento(hoje, agora, medico_aux, paciente_aux);
+
+        if (!existeAgendamento) {
+            AgendamentoConsulta agendamento = new AgendamentoConsulta();
+            agendamento.setMedico(medico_aux);
+            agendamento.setPaciente(paciente_aux);
+            agendamento.setData(hoje);
+            agendamento.setHora(agora);
+            agendamento.setStateAgendamentoConsulta(PendenteState.getInstancia());
+            agendamentoConsultaService.salvarAgendamento(agendamento);
+        }
+
     }
 }

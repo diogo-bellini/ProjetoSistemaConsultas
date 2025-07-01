@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Prescrição</title>
+</head>
+<body>
+<h1>Editar Prescrição</h1>
+
+<form th:action="@{/medico/prescricao/editar}" method="post">
+    <input type="hidden" name="id" th:value="${prescricao.id}" />
+
+    <div>
+        <label for="medicamento">Medicamento:</label><br>
+        <input type="text" id="medicamento" name="medicamento" th:value="${prescricao.medicamento}" required />
+    </div>
+
+    <div>
+        <label for="dosagem">Dosagem:</label><br>
+        <input type="text" id="dosagem" name="dosagem" th:value="${prescricao.dosagem}" required />
+    </div>
+
+    <div>
+        <label for="frequencia">Frequência:</label><br>
+        <input type="text" id="frequencia" name="frequencia" th:value="${prescricao.frequencia}" required />
+    </div>
+
+    <div>
+        <label for="dataInicio">Data de Início:</label><br>
+        <input type="date" id="dataInicio" name="dataInicio" th:value="${prescricao.dataInicio}" required />
+    </div>
+
+    <div>
+        <label for="dataFim">Data de Fim:</label><br>
+        <input type="date" id="dataFim" name="dataFim" th:value="${prescricao.dataFim}" required />
+    </div>
+
+    <button type="submit" style="margin-top: 10px;">Salvar Alterações</button>
+</form>
+
+<a th:href="@{/medico/diagnostico/{id}(id=${prescricao.diagnostico.consulta.id})}" style="display:block; margin-top: 20px;">Voltar</a>
+
+</body>
+</html>

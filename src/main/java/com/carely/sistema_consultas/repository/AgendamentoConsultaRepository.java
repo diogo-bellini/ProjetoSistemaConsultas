@@ -1,6 +1,8 @@
 package com.carely.sistema_consultas.repository;
 
 import com.carely.sistema_consultas.entity.AgendamentoConsulta;
+import com.carely.sistema_consultas.entity.Medico;
+import com.carely.sistema_consultas.entity.Paciente;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +28,6 @@ public interface AgendamentoConsultaRepository extends JpaRepository<Agendamento
             "(a.data < :hoje OR (a.data = :hoje AND a.hora <= :agora)) AND " +
             "a.processado = false")
     List<AgendamentoConsulta> buscarAgendamentosProntosNaoProcessados(@Param("hoje") LocalDate hoje, @Param("agora") LocalTime agora);
+    boolean existsByDataAndHoraAndMedicoAndPaciente(LocalDate data, LocalTime hora, Medico medico, Paciente paciente);
+
 }

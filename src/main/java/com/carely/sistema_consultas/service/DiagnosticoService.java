@@ -22,4 +22,9 @@ public class DiagnosticoService implements IDiagnosticoService {
         diagnosticoRepository.save(diagnostico);
     }
 
+    @Override
+    public Diagnostico carregarDiagnosticoId(Long diagnoticoId) {
+        return diagnosticoRepository.findById(diagnoticoId).orElse(null);
+    }
+
 }

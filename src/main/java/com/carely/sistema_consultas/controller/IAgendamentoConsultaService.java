@@ -1,6 +1,8 @@
 package com.carely.sistema_consultas.controller;
 
 import com.carely.sistema_consultas.entity.AgendamentoConsulta;
+import com.carely.sistema_consultas.entity.Medico;
+import com.carely.sistema_consultas.entity.Paciente;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,4 +21,5 @@ public interface IAgendamentoConsultaService {
     public Set<String> buscarHorariosIndisponiveis(Long medicoId);
     public boolean horarioDisponivel(Set<String> bloqueados, LocalDate data, LocalTime hora);
     public void reagendarAgendamento(AgendamentoConsulta agendamentoConsulta, LocalDate data, LocalTime hora);
+    boolean existeAgendamento(LocalDate hoje, LocalTime agora, Medico medicoAux, Paciente pacienteAux);
 }

@@ -37,6 +37,7 @@
             <th>Frequência</th>
             <th>Início</th>
             <th>Fim</th>
+            <th>Ações</th>
         </tr>
         </thead>
         <tbody>
@@ -46,43 +47,55 @@
             <td th:text="${prescricao.frequencia}">2x ao dia</td>
             <td th:text="${prescricao.dataInicio}">2025-07-01</td>
             <td th:text="${prescricao.dataFim}">2025-07-10</td>
+            <td>
+                <a th:href="@{/medico/prescricao/editar/{id}(id=${prescricao.id})}">
+                    <button type="button">Editar</button>
+                </a>
+
+                <form th:action="@{/medico/prescricao/excluir/{id}(id=${prescricao.id})}" method="post" style="display:inline;">
+                    <input type="hidden" name="_method" value="delete"/> <!-- necessário se usar @DeleteMapping -->
+                    <button type="submit" onclick="return confirm('Deseja realmente excluir esta prescrição?');">Excluir</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
 
     <hr>
 
-    <h3>Adicionar Nova Prescrição</h3>
-    <form th:action="@{/medico/diagnostico/prescricao/adicionar}" method="post">
-        <input type="hidden" name="diagnosticoId" th:value="${consulta.diagnostico != null} ? ${consulta.diagnostico.id} : 0" />
+    <div th:if="${consulta.diagnostico != null}">
+        <h3>Adicionar Nova Prescrição</h3>
+        <form th:action="@{/medico/prescricao/adicionar-prescricao}" method="post">
+                <input type="hidden" name="diagnosticoId" th:value="${consulta.diagnostico.id}" />
 
-        <div>
-            <label for="medicamento">Medicamento:</label><br>
-            <input type="text" id="medicamento" name="medicamento" required />
-        </div>
+            <div>
+                <label for="medicamento">Medicamento:</label><br>
+                <input type="text" id="medicamento" name="medicamento" required />
+            </div>
 
-        <div>
-            <label for="dosagem">Dosagem:</label><br>
-            <input type="text" id="dosagem" name="dosagem" required />
-        </div>
+            <div>
+                <label for="dosagem">Dosagem:</label><br>
+                <input type="text" id="dosagem" name="dosagem" required />
+            </div>
 
-        <div>
-            <label for="frequencia">Frequência:</label><br>
-            <input type="text" id="frequencia" name="frequencia" required />
-        </div>
+            <div>
+                <label for="frequencia">Frequência:</label><br>
+                <input type="text" id="frequencia" name="frequencia" required />
+            </div>
 
-        <div>
-            <label for="dataInicio">Data de Início:</label><br>
-            <input type="date" id="dataInicio" name="dataInicio" required />
-        </div>
+            <div>
+                <label for="dataInicio">Data de Início:</label><br>
+                <input type="date" id="dataInicio" name="dataInicio" required />
+            </div>
 
-        <div>
-            <label for="dataFim">Data de Fim:</label><br>
-            <input type="date" id="dataFim" name="dataFim" required />
-        </div>
+            <div>
+                <label for="dataFim">Data de Fim:</label><br>
+                <input type="date" id="dataFim" name="dataFim" required />
+            </div>
 
-        <button type="submit" style="margin-top: 10px;">Adicionar Prescrição</button>
-    </form>
+            <button type="submit" style="margin-top: 10px;">Adicionar Prescrição</button>
+        </form>
+    </div>
 
     <a th:href="@{/medico/home}" style="display:block; margin-top: 20px;">Voltar</a>
 </div>
