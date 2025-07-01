@@ -26,5 +26,19 @@ public class ConsultaService implements IConsultaService {
         consultaRepository.save(nova);
     }
 
+    public Consulta carregarConsultaComPaciente(Long id){
+        return consultaRepository.findWithPacienteById(id);
+    }
+
+    @Override
+    public Consulta carregarConsultaComDiagnosticoPrescricoes(Long id) {
+        return consultaRepository.findWithDiagnosticoPrescricoesById(id);
+    }
+
+    public Consulta carregarConsultaId(Long id){
+        return consultaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Consulta com ID " + id + " não encontrada."));
+    }
+
 
 }
