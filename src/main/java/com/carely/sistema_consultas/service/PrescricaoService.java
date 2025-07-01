@@ -1,6 +1,6 @@
 package com.carely.sistema_consultas.service;
 
-import com.carely.sistema_consultas.controller.IPrescricaoService;
+import com.carely.sistema_consultas.controller.prescricaoMedicoController.IPrescricaoServicePrescricaoMedico;
 import com.carely.sistema_consultas.entity.Diagnostico;
 import com.carely.sistema_consultas.entity.Prescricao;
 import com.carely.sistema_consultas.repository.PrescricaoRepository;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 
 @Service
-public class PrescricaoService implements IPrescricaoService {
+public class PrescricaoService implements IPrescricaoServicePrescricaoMedico {
 
     @Autowired
     private PrescricaoRepository prescricaoRepository;

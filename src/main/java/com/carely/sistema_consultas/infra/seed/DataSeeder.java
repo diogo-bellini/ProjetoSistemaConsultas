@@ -1,6 +1,5 @@
 package com.carely.sistema_consultas.infra.seed;
 
-import com.carely.sistema_consultas.controller.*;
 import com.carely.sistema_consultas.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -19,15 +18,15 @@ public class DataSeeder implements CommandLineRunner {
     @Autowired
     private AdminFactory adminFactory;
     @Autowired
-    private IMedicoService medicoService;
+    private IMedicoServiceSeed medicoService;
     @Autowired
-    private ICadastroService cadastroService;
+    private ICadastroServiceSeed cadastroService;
     @Autowired
-    private IPacienteService pacienteService;
+    private IPacienteServiceSeed pacienteService;
     @Autowired
-    private IAdminService adminService;
+    private IAdminServiceSeed adminService;
     @Autowired
-    private IAgendamentoConsultaService agendamentoConsultaService;
+    private IAgendamentoConsultaServiceSeed agendamentoConsultaService;
 
     @Override
     @Transactional

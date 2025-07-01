@@ -1,6 +1,9 @@
 package com.carely.sistema_consultas.service;
 
-import com.carely.sistema_consultas.controller.IAgendamentoConsultaService;
+import com.carely.sistema_consultas.infra.seed.IAgendamentoConsultaServiceSeed;
+import com.carely.sistema_consultas.controller.agendamentoConsultaMedicoController.IAgendamentoConsultaServiceAgendamentoConsultaMedico;
+import com.carely.sistema_consultas.controller.agendamentoConsultaPacienteController.IAgendamentoConsultaServiceAgendamentoConsultaPaciente;
+import com.carely.sistema_consultas.controller.consultaPacienteController.IAgendamentoConsultaServiceConsultaPaciente;
 import com.carely.sistema_consultas.entity.*;
 import com.carely.sistema_consultas.repository.AgendamentoConsultaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class AgendamentoConsultaService implements IAgendamentoConsultaService {
+public class AgendamentoConsultaService implements IAgendamentoConsultaServiceSeed, IAgendamentoConsultaServiceAgendamentoConsultaMedico, IAgendamentoConsultaServiceAgendamentoConsultaPaciente, IAgendamentoConsultaServiceConsultaPaciente {
     @Autowired
     private AgendamentoConsultaRepository agendamentoConsultaRepository;
 

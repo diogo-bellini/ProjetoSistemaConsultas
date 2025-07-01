@@ -1,6 +1,6 @@
 package com.carely.sistema_consultas.service;
 
-import com.carely.sistema_consultas.controller.IUsuarioService;
+import com.carely.sistema_consultas.controller.adminController.IUsuarioServiceAdmin;
 import com.carely.sistema_consultas.entity.Usuario;
 import com.carely.sistema_consultas.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UsuarioService implements IUsuarioService {
+public class UsuarioService implements IUsuarioServiceAdmin {
 
     @Autowired
     private UsuarioRepository usuarioRepository;

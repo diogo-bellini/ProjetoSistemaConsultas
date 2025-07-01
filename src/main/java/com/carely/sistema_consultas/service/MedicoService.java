@@ -1,6 +1,11 @@
 package com.carely.sistema_consultas.service;
 
-import com.carely.sistema_consultas.controller.IMedicoService;
+import com.carely.sistema_consultas.infra.seed.IMedicoServiceSeed;
+import com.carely.sistema_consultas.controller.adminController.IMedicoServiceAdmin;
+import com.carely.sistema_consultas.controller.agendamentoConsultaMedicoController.IMedicoServiceAgendamentoConsultaMedico;
+import com.carely.sistema_consultas.controller.agendamentoConsultaPacienteController.IMedicoServiceAgendamentoConsultaPaciente;
+import com.carely.sistema_consultas.controller.consultaMedicoController.IMedicoServiceConsultaMedico;
+import com.carely.sistema_consultas.controller.medicoController.IMedicoServiceMedico;
 import com.carely.sistema_consultas.entity.Medico;
 import com.carely.sistema_consultas.entity.MedicoFactory;
 import com.carely.sistema_consultas.repository.MedicoRepository;
@@ -12,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class MedicoService implements IMedicoService {
+public class MedicoService implements IMedicoServiceSeed, IMedicoServiceAdmin, IMedicoServiceAgendamentoConsultaMedico, IMedicoServiceAgendamentoConsultaPaciente, IMedicoServiceConsultaMedico, IMedicoServiceMedico {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
