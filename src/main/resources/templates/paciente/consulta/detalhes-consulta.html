@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detalhes da Consulta</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header class="main-header">
+        <a th:href="@{/paciente/home}" class="brand">Care.ly</a>
+    </header>
+
+    <main>
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="bi bi-file-earmark-medical"></i> Detalhes da Consulta</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>Data:</strong> <span th:text="${#temporals.format(consulta.data, 'dd/MM/yyyy')}"></span></p>
+                <p><strong>Médico(a):</strong> <span th:text="${consulta.medico.nome}"></span></p>
+                <hr style="margin: 1.5rem 0;">
+    
+                <h4>Diagnóstico</h4>
+                <div th:if="${consulta.diagnostico != null}" style="background-color: #f7fafc; padding: 1rem; border-radius: 6px;">
+                    <p th:text="${consulta.diagnostico.descricao}" style="white-space: pre-wrap; margin: 0;"></p>
+                </div>
+                <div th:if="${consulta.diagnostico == null}">Nenhum diagnóstico registrado.</div>
+    
+                <h4 style="margin-top: 1.5rem;">Prescrições</h4>
+                <div th:if="${consulta.diagnostico != null and not #lists.isEmpty(consulta.diagnostico.prescricoes)}">
+                    <ul style="list-style: none; padding: 0; display: grid; gap: 1rem;">
+                        <li th:each="p : ${consulta.diagnostico.prescricoes}" class="card" style="margin: 0;">
+                           <div class="card-body">
+                                <strong><i class="bi bi-capsule"></i> Medicamento:</strong> <span th:text="${p.medicamento}"></span><br>
+                                <strong>Dosagem:</strong> <span th:text="${p.dosagem}"></span><br>
+                                <strong>Período:</strong>
+                                <span th:text="${#temporals.format(p.dataInicio, 'dd/MM/yy')}"></span> até
+                                <span th:text="${#temporals.format(p.dataFim, 'dd/MM/yy')}"></span>
+                           </div>
+                        </li>
+                    </ul>
+                </div>
+                 <div th:if="${consulta.diagnostico == null or #lists.isEmpty(consulta.diagnostico.prescricoes)}">
+                    Nenhuma prescrição registrada para esta consulta.
+                </div>
+            </div>
+            <div class="card-footer">
+                <a th:href="@{/paciente/consultas}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Voltar para Minhas Consultas
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        &copy; 2025 Care.ly - Todos os direitos reservados.
+    </footer>
+</body>
+</html>
