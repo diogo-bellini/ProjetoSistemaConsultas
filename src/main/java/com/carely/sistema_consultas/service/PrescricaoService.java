@@ -24,7 +24,7 @@ public class PrescricaoService implements IPrescricaoServicePrescricaoMedico {
         prescricao.setDataInicio(dataInicio);
         prescricao.setDataFim(dataFim);
         prescricao.setDiagnostico(diagnotico);
-        prescricaoRepository.save(prescricao);
+        this.salvarPrescricao(prescricao);
     }
 
     @Override
