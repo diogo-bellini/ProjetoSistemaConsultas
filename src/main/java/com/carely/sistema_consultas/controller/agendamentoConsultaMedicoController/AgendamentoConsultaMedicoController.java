@@ -29,7 +29,7 @@ public class AgendamentoConsultaMedicoController {
     }
 
     @GetMapping("/detalhes/{id}")
-    public String detalhesAgendamentos(Model model, @PathVariable Long id){
+    public String detalharAgendamento(Model model, @PathVariable Long id){
         model.addAttribute("agendamento", agendamentoConsultaService.carregarAgendamentoConsultaComPaciente(id));
         return "medico/agendamento-consulta/detalhes-agendamento";
     }
