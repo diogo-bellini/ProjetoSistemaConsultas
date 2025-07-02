@@ -47,7 +47,7 @@ public class PacienteService implements IPacienteServiceSeed, IPacienteServiceAd
         if(senha != null && !senha.isEmpty()){
             aux.setSenha(passwordEncoder.encode(senha));
         }
-        pacienteRepository.save(aux);
+        this.save(aux);
     }
 
     public Paciente findById(Long id){

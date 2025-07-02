@@ -48,7 +48,7 @@ public class MedicoService implements IMedicoServiceSeed, IMedicoServiceAdmin, I
         if(senha != null && !senha.isEmpty()){
             aux.setSenha(passwordEncoder.encode(senha));
         }
-        medicoRepository.save(aux);
+        this.save(aux);
     }
 
     @Override
