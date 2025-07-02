@@ -11,6 +11,7 @@ public interface IAgendamentoConsultaServiceAgendamentoConsultaMedico {
     public AgendamentoConsulta carregarAgendamentoConsultaComPaciente(Long id);
     public void confirmarAgendamento(AgendamentoConsulta agendamentoConsulta);
     public void cancelarAgendamento(AgendamentoConsulta agendamentoConsulta);
+    public void excluirAgendamento(Long id);
     public AgendamentoConsulta carregarAgendamentoConsultaComMedico(Long id);
     public List<LocalDate> gerarDiasAgendamento();
     public List<LocalTime> gerarHorariosAgendamento();

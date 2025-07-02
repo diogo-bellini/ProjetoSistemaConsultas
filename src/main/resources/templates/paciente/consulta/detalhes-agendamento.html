@@ -12,7 +12,7 @@
 </head>
 <body>
     <header class="main-header">
-        <a th:href="@{/medico/home}" class="brand">Care.ly - Área do Médico</a>
+        <a th:href="@{/paciente/home}" class="brand">Care.ly</a>
     </header>
 
     <main>
@@ -21,9 +21,9 @@
                 <h2><i class="bi bi-file-earmark-text"></i> Detalhes do Agendamento</h2>
             </div>
             <div class="card-body">
-                <h3>Informações do Paciente</h3>
-                <p><strong>Nome:</strong> <span th:text="${agendamento.paciente.nome}"></span></p>
-                <p><strong>Email:</strong> <span th:text="${agendamento.paciente.email}"></span></p>
+                <h3>Informações do Médico</h3>
+                <p><strong>Nome:</strong> <span th:text="${agendamento.medico.nome}"></span></p>
+                <p><strong>Especialidade:</strong> <span th:text="${agendamento.medico.especialidade}"></span></p>
                 <hr style="margin: 1.5rem 0;">
                 
                 <h3>Informações da Consulta</h3>
@@ -31,23 +31,21 @@
                 <p><strong>Hora:</strong> <span th:text="${#temporals.format(agendamento.hora, 'HH:mm')}"></span></p>
                 <p><strong>Status:</strong> <span th:text="${agendamento.status}"></span></p>
             </div>
-
             <div class="card-footer" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
-                
                 <div th:if="${agendamento.status == 'Pendente'}" style="display: flex; gap: 1rem;">
-                    <form th:action="@{/medico/agendamento-consulta/{id}/confirmar(id=${agendamento.id})}" method="post">
+                    <form th:action="@{/paciente/consultas/agendamento/{id}/confirmar(id=${agendamento.id})}" method="post">
                         <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Confirmar</button>
                     </form>
-                    <a th:href="@{/medico/agendamento-consulta/{id}/reagendar(id=${agendamento.id})}" class="btn btn-secondary">
+                    <a th:href="@{/paciente/consultas/agendamento/{id}/reagendar(id=${agendamento.id})}" class="btn btn-secondary">
                         <i class="bi bi-calendar-event"></i> Reagendar
                     </a>
                 </div>
 
                 <div th:if="${agendamento.status == 'Confirmada'}" style="display: flex; gap: 1rem;">
-                    <a th:href="@{/medico/agendamento-consulta/{id}/reagendar(id=${agendamento.id})}" class="btn btn-secondary">
+                    <a th:href="@{/paciente/consultas/agendamento/{id}/reagendar(id=${agendamento.id})}" class="btn btn-secondary">
                         <i class="bi bi-calendar-event"></i> Reagendar
                     </a>
-                    <form th:action="@{/medico/agendamento-consulta/{id}/cancelar(id=${agendamento.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja cancelar este agendamento?');">
+                    <form th:action="@{/paciente/consultas/agendamento/{id}/cancelar(id=${agendamento.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja cancelar este agendamento?');">
                         <button type="submit" class="btn" style="background-color: #c53030; color: white;">
                             <i class="bi "></i> Cancelar Agendamento
                         </button>
@@ -55,14 +53,14 @@
                 </div>
                 
                 <div th:if="${agendamento.status == 'Cancelada'}">
-                    <form th:action="@{/medico/agendamento-consulta/{id}/excluir(id=${agendamento.id})}" method="post" onsubmit="return confirm('Esta ação removerá o agendamento permanentemente. Deseja continuar?');">
+                    <form th:action="@{/paciente/consultas/agendamento/{id}/excluir(id=${agendamento.id})}" method="post" onsubmit="return confirm('Esta ação removerá o agendamento permanentemente. Deseja continuar?');">
                         <button type="submit" class="btn" style="background-color: #c53030; color: white;">
                             <i class="bi bi-trash-fill"></i> Excluir Registro
                         </button>
                     </form>
                 </div>
-                
-                <a th:href="@{/medico/agendamento-consulta}" style="margin-left: auto;" class="btn btn-secondary">Voltar</a>
+
+                <a th:href="@{/paciente/consultas}" style="margin-left: auto;" class="btn btn-secondary">Voltar</a>
             </div>
         </div>
     </main>

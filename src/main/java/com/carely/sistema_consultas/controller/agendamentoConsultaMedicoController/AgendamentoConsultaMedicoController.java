@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -45,6 +46,13 @@ public class AgendamentoConsultaMedicoController {
         AgendamentoConsulta agendamentoConsulta = agendamentoConsultaService.carregarAgendamentoConsultaComPaciente(id);
         agendamentoConsultaService.cancelarAgendamento(agendamentoConsulta);
         return "redirect:/medico/agendamento-consulta/detalhes/" + id;
+    }
+
+    @PostMapping("/{id}/excluir")
+    public String excluirAgendamento(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        agendamentoConsultaService.excluirAgendamento(id);
+        redirectAttributes.addFlashAttribute("sucesso", "Agendamento excluído com sucesso.");
+        return "redirect:/medico/agendamento-consulta";
     }
 
     @GetMapping("{id}/reagendar")

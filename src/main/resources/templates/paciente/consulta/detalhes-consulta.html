@@ -38,6 +38,7 @@
                            <div class="card-body">
                                 <strong><i class="bi bi-capsule"></i> Medicamento:</strong> <span th:text="${p.medicamento}"></span><br>
                                 <strong>Dosagem:</strong> <span th:text="${p.dosagem}"></span><br>
+                                <strong><i class="bi bi-clock-history"></i> Frequência:</strong> <span th:text="${p.frequencia}"></span><br>
                                 <strong>Período:</strong>
                                 <span th:text="${#temporals.format(p.dataInicio, 'dd/MM/yy')}"></span> até
                                 <span th:text="${#temporals.format(p.dataFim, 'dd/MM/yy')}"></span>

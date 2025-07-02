@@ -51,6 +51,11 @@ public class AgendamentoConsultaService implements IAgendamentoConsultaServiceSe
         agendamentoConsultaRepository.save(agendamentoConsulta);
     }
 
+    @Override
+    public void excluirAgendamento(Long id) {
+        agendamentoConsultaRepository.deleteById(id);
+    }
+
     public List<LocalDate> gerarDiasAgendamento(){
         LocalDate hoje = LocalDate.now();
         List<LocalDate> diasRemarque = new ArrayList<>();
