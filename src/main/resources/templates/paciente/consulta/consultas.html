@@ -11,8 +11,9 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <style>
         .status-badge { padding: 0.25rem 0.6rem; border-radius: 12px; font-weight: 500; font-size: 0.8rem; }
-        .status-confirmada { background-color: #c6f6d5; color: #2f855a; }
-        .status-pendente { background-color: #feebc8; color: #9c4221; }
+        .status-Confirmada { background-color: #c6f6d5; color: #2f855a; }
+        .status-Pendente { background-color: #feebc8; color: #9c4221; }
+        .status-Cancelada { background-color: #fed7d7; color: #c53030; }
     </style>
 </head>
 <body>
@@ -21,36 +22,29 @@
     </header>
 
     <main>
-        <h2><i class="bi bi-journal-text"></i> Minhas Consultas</h2>
-    
+        <h2><i class="bi bi-journal-text"></i> Meus Agendamentos e Consultas</h2>
+        
         <ul class="nav-tabs" id="myTab">
-            <li><button class="nav-link active" data-tab="marcadas">Consultas Marcadas</button></li>
+            <li><button class="nav-link active" data-tab="marcadas">Agendamentos</button></li>
             <li><button class="nav-link" data-tab="historico">Histórico de Consultas</button></li>
         </ul>
-    
+
         <div class="tab-content">
             <div class="tab-pane active" id="marcadas">
                 <div class="card">
                     <div class="card-body">
-                        <div th:if="${#lists.isEmpty(consultasMarcadas)}">Você não possui consultas marcadas.</div>
+                        <div th:if="${#lists.isEmpty(consultasMarcadas)}">Você não possui agendamentos.</div>
                         <div th:unless="${#lists.isEmpty(consultasMarcadas)}" style="overflow-x: auto;">
                             <table class="table">
-                                <thead><tr><th>Data</th><th>Hora</th><th>Médico</th><th>Status</th><th>Ações</th></tr></thead>
+                                <thead><tr><th>Data</th><th>Hora</th><th>Médico</th><th>Status</th><th style="text-align: right;">Ações</th></tr></thead>
                                 <tbody>
                                     <tr th:each="ag : ${consultasMarcadas}">
                                         <td th:text="${#temporals.format(ag.data, 'dd/MM/yyyy')}"></td>
                                         <td th:text="${#temporals.format(ag.hora, 'HH:mm')}"></td>
                                         <td th:text="${ag.medico.nome}"></td>
-                                        <td>
-                                            <span class="status-badge" 
-                                                  th:classappend="${ag.status == 'Pendente' ? 'status-pendente' : 'status-confirmada'}" 
-                                                  th:text="${ag.status}"></span>
-                                        </td>
-                                        <td style="display: flex; gap: 0.5rem; align-items: center;">
-                                            <a th:href="@{/paciente/consultas/agendamento/{id}/reagendar(id=${ag.id})}" class="btn btn-secondary">Reagendar</a>
-                                            <form th:action="@{/paciente/consultas/agendamento/{id}/cancelar(id=${ag.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja cancelar esta consulta?');">
-                                                <button type="submit" class="btn" style="background-color: #c53030; color: white;"><i class="bi bi-x-circle"></i>Cancelar</button>
-                                            </form>
+                                        <td><span class="status-badge" th:classappend="'status-' + ${ag.status}" th:text="${ag.status}"></span></td>
+                                        <td style="text-align: right;">
+                                            <a th:href="@{/paciente/consultas/agendamento/detalhes/{id}(id=${ag.id})}" class="btn btn-primary">Detalhes</a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -59,14 +53,23 @@
                     </div>
                 </div>
             </div>
-    
+            
             <div class="tab-pane" id="historico">
                 <div class="card">
                      <div class="card-body">
-                        <div th:if="${#lists.isEmpty(historicoConsultas)}">Você ainda não possui um histórico de consultas.</div>
+                        <div th:if="${#lists.isEmpty(historicoConsultas)}" class="alert-info">
+                            Você ainda não possui um histórico de consultas.
+                        </div>
                         <div th:unless="${#lists.isEmpty(historicoConsultas)}" style="overflow-x: auto;">
-                            <table class="table">
-                                <thead><tr><th>Data</th><th>Hora</th><th>Médico</th><th style="text-align: right;">Ações</th></tr></thead>
+                           <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Hora</th>
+                                        <th>Médico</th>
+                                        <th style="text-align: right;">Ações</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     <tr th:each="c : ${historicoConsultas}">
                                         <td th:text="${#temporals.format(c.data, 'dd/MM/yyyy')}"></td>
@@ -79,7 +82,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                     </div>
                 </div>
             </div>
         </div>

@@ -9,6 +9,7 @@ import java.util.Set;
 
 public interface IAgendamentoConsultaServiceConsultaPaciente {
     public AgendamentoConsulta carregarAgendamentoConsulta(Long id);
+    public void confirmarAgendamento(AgendamentoConsulta agendamentoConsulta);
     public void cancelarAgendamento(AgendamentoConsulta agendamentoConsulta);
     public AgendamentoConsulta carregarAgendamentoConsultaComMedico(Long id);
     public Set<String> buscarHorariosIndisponiveis(Long medicoId);
