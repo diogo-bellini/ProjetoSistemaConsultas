@@ -68,7 +68,7 @@
                                     <td th:text="${prescricao.dosagem}"></td>
                                     <td th:text="${prescricao.frequencia}"></td>
                                     <td> <span th:text="${#temporals.format(prescricao.dataInicio, 'dd/MM/yy')}"></span> até
-                                    <span th:text="${#temporals.format(prescricao.dataFim, 'dd/MM/yy')}"></span>></td>
+                                    <span th:text="${#temporals.format(prescricao.dataFim, 'dd/MM/yy')}"></span></td>
                                     <td style="text-align: right;">
                                         <a th:href="@{/medico/prescricao/editar/{id}(id=${prescricao.id})}" class="btn btn-secondary">Editar</a>
                                         <form th:action="@{/medico/prescricao/excluir/{id}(id=${prescricao.id})}" method="post" style="display:inline;" onsubmit="return confirm('Deseja realmente excluir?');">

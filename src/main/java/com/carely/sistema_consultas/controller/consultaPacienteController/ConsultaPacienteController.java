@@ -40,7 +40,6 @@ public class ConsultaPacienteController {
         // 1. Buscar agendamentos (Pendente ou Confirmada)
         Paciente pacienteComAgendamentos = pacienteService.carregarPacienteComAgendamentos(email);
         List<AgendamentoConsulta> consultasMarcadas = pacienteComAgendamentos.getAgendamentoConsultas().stream()
-                .filter(ag -> "Pendente".equals(ag.getStatus()) || "Confirmada".equals(ag.getStatus()))
                 .sorted(Comparator.comparing(AgendamentoConsulta::getData).thenComparing(AgendamentoConsulta::getHora))
                 .collect(Collectors.toList());
 
@@ -54,6 +53,21 @@ public class ConsultaPacienteController {
         model.addAttribute("historicoConsultas", historicoConsultas);
 
         return "paciente/consulta/consultas";
+    }
+
+    @GetMapping("/agendamento/detalhes/{id}")
+    public String detalhesAgendamento(@PathVariable Long id, Model model) {
+        AgendamentoConsulta agendamento = agendamentoConsultaService.carregarAgendamentoConsultaComMedico(id);
+        model.addAttribute("agendamento", agendamento);
+        return "paciente/consulta/detalhes-agendamento"; // Renderiza a nova página de detalhes
+    }
+
+    @PostMapping("/agendamento/{id}/confirmar")
+    public String confirmarAgendamento(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        AgendamentoConsulta agendamento = agendamentoConsultaService.carregarAgendamentoConsulta(id);
+        agendamentoConsultaService.confirmarAgendamento(agendamento);
+        redirectAttributes.addFlashAttribute("sucesso", "Sua consulta foi confirmada com sucesso!");
+        return "redirect:/paciente/consultas/agendamento/detalhes/" + id;
     }
 
     /**
